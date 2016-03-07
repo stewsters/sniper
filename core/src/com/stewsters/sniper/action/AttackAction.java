@@ -22,7 +22,7 @@ public class AttackAction extends Action {
         //TODO: death?
 
         if (target.health.getHP() <= 0) {
-            target.mapChunk.removePawn(target);
+            target.worldMap.removePawn(target);
         }
 
         return ActionResult.SUCCESS;

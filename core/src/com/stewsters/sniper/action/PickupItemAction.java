@@ -14,12 +14,12 @@ public class PickupItemAction extends Action {
     @Override
     public ActionResult onPerform() {
 
-        Item item = mapChunk.itemAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z);
+        Item item = worldMap.itemAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z);
         if (item == null) {
             return ActionResult.FAILURE;
         }
 
-        mapChunk.removeItem(item);
+        worldMap.removeItem(item);
 
         //TODO: add to player
 

@@ -1,13 +1,13 @@
 package com.stewsters.sniper.game;
 
-import com.stewsters.sniper.map.MapChunk;
+import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
 
 public class SoldierMover implements Mover3d {
 
-    private MapChunk map;
+    private WorldMap map;
 
-    public SoldierMover(MapChunk region) {
+    public SoldierMover(WorldMap region) {
         map = region;
     }
 

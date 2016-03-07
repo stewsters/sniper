@@ -21,11 +21,11 @@ public class OpenDoorAction extends Action {
         if (!pawn.doorOpener) {
             return ActionResult.FAILURE;
         }
-        if (mapChunk.getCellTypeAt(pos.x, pos.y, pos.z) != TileType.CLOSED_DOOR) {
+        if (worldMap.getCellTypeAt(pos.x, pos.y, pos.z) != TileType.CLOSED_DOOR) {
             return ActionResult.FAILURE;
         }
 
-        mapChunk.setCellTypeAt(pos.x, pos.y, pos.z, TileType.OPEN_DOOR);
+        worldMap.setCellTypeAt(pos.x, pos.y, pos.z, TileType.OPEN_DOOR);
         return ActionResult.SUCCESS;
 
     }

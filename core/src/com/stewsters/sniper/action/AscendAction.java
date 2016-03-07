@@ -14,21 +14,21 @@ public class AscendAction extends Action {
     @Override
     public ActionResult onPerform() {
 
-        if (mapChunk.getCellTypeAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z) != TileType.UP_STAIR) {
+        if (worldMap.getCellTypeAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z) != TileType.UP_STAIR) {
             return ActionResult.FAILURE;
         }
-        if (pawn.pos.current.z == mapChunk.getZSize() - 1) {
+        if (pawn.pos.current.z == worldMap.getZSize() - 1) {
             return ActionResult.FAILURE;
         }
 
         // go up to next floor
 
-        mapChunk.removePawn(pawn);
+        worldMap.removePawn(pawn);
 
         pawn.pos.current.z = pawn.pos.current.z + 1;
         pawn.pos.previous = pawn.pos.current.copy();
 
-        mapChunk.addPawn(pawn);
+        worldMap.addPawn(pawn);
 
         return ActionResult.SUCCESS;
 

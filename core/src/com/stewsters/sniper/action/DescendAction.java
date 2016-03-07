@@ -14,7 +14,7 @@ public class DescendAction extends Action {
     @Override
     public ActionResult onPerform() {
 
-        if (mapChunk.getCellTypeAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z) != TileType.DOWN_STAIR) {
+        if (worldMap.getCellTypeAt(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z) != TileType.DOWN_STAIR) {
             // We are not on a downstair
             return ActionResult.FAILURE;
         }
@@ -24,12 +24,12 @@ public class DescendAction extends Action {
 
         // go up to next floor
 
-        mapChunk.removePawn(pawn);
+        worldMap.removePawn(pawn);
 
         pawn.pos.current.z = pawn.pos.current.z - 1;
         pawn.pos.previous = pawn.pos.current.copy();
 
-        mapChunk.addPawn(pawn);
+        worldMap.addPawn(pawn);
 
         return ActionResult.SUCCESS;
 

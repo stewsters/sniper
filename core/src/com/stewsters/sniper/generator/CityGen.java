@@ -9,7 +9,7 @@ import com.stewsters.sniper.component.PlayerControl;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.game.TextureManager;
 import com.stewsters.sniper.game.TileType;
-import com.stewsters.sniper.map.MapChunk;
+import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.math.Point3i;
 
 import static com.stewsters.sniper.game.TileType.AIR;
@@ -19,13 +19,13 @@ import static com.stewsters.util.math.MatUtils.d;
 public class CityGen {
 
 
-    public static MapChunk gen() {
+    public static WorldMap gen() {
 
-        MapChunk mapChunk = new MapChunk();
+        WorldMap worldMap = new WorldMap();
 
-        for (int x = 0; x < mapChunk.getXSize(); x++) {
-            for (int y = 0; y < mapChunk.getYSize(); y++) {
-                for (int z = 0; z < mapChunk.getZSize(); z++) {
+        for (int x = 0; x < worldMap.getXSize(); x++) {
+            for (int y = 0; y < worldMap.getYSize(); y++) {
+                for (int z = 0; z < worldMap.getZSize(); z++) {
 
                     TileType t;
                     if (z == 0) {
@@ -34,41 +34,41 @@ public class CityGen {
                         t = AIR;
                     }
 
-                    mapChunk.setCellTypeAt(x, y, z, t);
+                    worldMap.setCellTypeAt(x, y, z, t);
                 }
             }
         }
 
 
-        return mapChunk;
+        return worldMap;
     }
 
 
-    public static MapChunk populate(MapChunk mapChunk) {
+    public static WorldMap populate(WorldMap worldMap) {
 
 
         // Set up player
-        int x = mapChunk.getXSize() / 2;
-        int y = mapChunk.getYSize() / 2;
+        int x = worldMap.getXSize() / 2;
+        int y = worldMap.getYSize() / 2;
         int z = 0;
 
-        addPlayer(mapChunk, x, y, z);
+        addPlayer(worldMap, x, y, z);
 
 
-        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+        addEnemy(worldMap, d(worldMap.getXSize()) - 1, d(worldMap.getYSize()) - 1, 0);
 //        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
 //        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
 
-        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+        addDog(worldMap, d(worldMap.getXSize()) - 1, d(worldMap.getYSize()) - 1, 0);
 //        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
 //        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
 //        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
 
-        return mapChunk;
+        return worldMap;
     }
 
 
-    public static MapChunk addPlayer(MapChunk mapChunk, int x, int y, int z) {
+    public static WorldMap addPlayer(WorldMap worldMap, int x, int y, int z) {
 
         Pawn player = new Pawn();
 
@@ -82,14 +82,14 @@ public class CityGen {
 
         player.gameTurn = 0;
 
-        mapChunk.addPawn(player);
-        mapChunk.player = player;
+        worldMap.addPawn(player);
+        worldMap.player = player;
 
-        return mapChunk;
+        return worldMap;
 
     }
 
-    public static MapChunk addEnemy(MapChunk mapChunk, int x, int y, int z) {
+    public static WorldMap addEnemy(WorldMap worldMap, int x, int y, int z) {
 
         Pawn player = new Pawn();
 
@@ -103,13 +103,13 @@ public class CityGen {
 
         player.gameTurn = d(99);
 
-        mapChunk.addPawn(player);
-        return mapChunk;
+        worldMap.addPawn(player);
+        return worldMap;
 
     }
 
 
-    public static MapChunk addDog(MapChunk mapChunk, int x, int y, int z) {
+    public static WorldMap addDog(WorldMap worldMap, int x, int y, int z) {
 
         Pawn player = new Pawn();
 
@@ -123,8 +123,8 @@ public class CityGen {
 
         player.gameTurn = d(99);
 
-        mapChunk.addPawn(player);
-        return mapChunk;
+        worldMap.addPawn(player);
+        return worldMap;
 
     }
 

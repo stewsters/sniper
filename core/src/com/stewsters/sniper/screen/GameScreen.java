@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.stewsters.sniper.generator.CityGen;
-import com.stewsters.sniper.map.MapChunk;
+import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.sniper.systems.MapRenderSystem;
 import com.stewsters.sniper.systems.TurnProcessSystem;
 
@@ -16,7 +16,7 @@ public class GameScreen implements Screen {
 
     SpriteBatch spriteBatch;
     OrthographicCamera camera;
-    MapChunk mapChunk;
+    WorldMap worldMap;
 
     MapRenderSystem mapRenderSystem;
     TurnProcessSystem turnProcessSystem;
@@ -34,12 +34,12 @@ public class GameScreen implements Screen {
         spriteBatch = new SpriteBatch();
 
 
-        mapChunk = CityGen.populate(CityGen.gen());
+        worldMap = CityGen.populate(CityGen.gen());
 
 
         //set up systems
-        mapRenderSystem = new MapRenderSystem(this, spriteBatch, mapChunk);
-        turnProcessSystem = new TurnProcessSystem(mapChunk);
+        mapRenderSystem = new MapRenderSystem(this, spriteBatch, worldMap);
+        turnProcessSystem = new TurnProcessSystem(worldMap);
     }
 
     @Override
@@ -48,6 +48,11 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1f, 0.6f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.position.set(
+                worldMap.player.pos.getRenderedX(),
+                worldMap.player.pos.getRenderedY(),
+                0
+        );
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
 

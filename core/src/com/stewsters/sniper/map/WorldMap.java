@@ -11,7 +11,7 @@ import com.stewsters.util.pathing.threeDimention.shared.TileBasedMap3d;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
+public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
     public static final int xSize = 64;
     public static final int ySize = 64;
     public static final int zSize = 32;
@@ -26,7 +26,7 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
     public PriorityQueue<Pawn> pawnQueue;
 
 
-    public MapChunk() {
+    public WorldMap() {
         tiles = new TileType[xSize][ySize][zSize];
         pawns = new Pawn[xSize][ySize][zSize];
 //        pawnList = new ArrayList<Pawn>();
@@ -73,13 +73,13 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
 
     // Pawn
     public void addPawn(Pawn pawn) {
-        pawn.mapChunk = this;
+        pawn.worldMap = this;
         pawnQueue.add(pawn);
         pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = pawn;
     }
 
     public void removePawn(Pawn pawn) {
-        pawn.mapChunk = null;
+        pawn.worldMap = null;
         pawnQueue.remove(pawn);
         pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = null;
     }
@@ -96,13 +96,13 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
 
     // Item
     public void addItem(Item item) {
-        item.mapChunk = this;
+        item.worldMap = this;
         items[item.pos.x][item.pos.y][item.pos.z] = item;
         //        itemList.add(item);
     }
 
     public void removeItem(Item item) {
-        item.mapChunk = null;
+        item.worldMap = null;
         items[item.pos.x][item.pos.y][item.pos.z] = null;
     }
 

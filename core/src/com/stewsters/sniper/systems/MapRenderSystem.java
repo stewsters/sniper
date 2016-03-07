@@ -4,7 +4,7 @@ package com.stewsters.sniper.systems;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.game.TileType;
-import com.stewsters.sniper.map.MapChunk;
+import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.sniper.screen.GameScreen;
 
 /**
@@ -13,11 +13,11 @@ import com.stewsters.sniper.screen.GameScreen;
 public class MapRenderSystem {
 
     private SpriteBatch spriteBatch;
-    private MapChunk region;
+    private WorldMap region;
     private GameScreen gameScreen;
 
 
-    public MapRenderSystem(GameScreen gameScreen, SpriteBatch spriteBatch, MapChunk region) {
+    public MapRenderSystem(GameScreen gameScreen, SpriteBatch spriteBatch, WorldMap region) {
         this.gameScreen = gameScreen;
         this.spriteBatch = spriteBatch;
         this.region = region;

@@ -27,7 +27,7 @@ public class AiControl extends Component {
 
             //find a nearby player
 
-            Pawn player = pawn.mapChunk.player;
+            Pawn player = pawn.worldMap.player;
 
 
             if (player != null) {

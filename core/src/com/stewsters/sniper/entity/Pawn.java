@@ -7,13 +7,13 @@ import com.stewsters.sniper.component.Appearance;
 import com.stewsters.sniper.component.Health;
 import com.stewsters.sniper.component.Location;
 import com.stewsters.sniper.component.PlayerControl;
-import com.stewsters.sniper.map.MapChunk;
+import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
 
 
 public class Pawn implements Mover3d {
 
-    public MapChunk mapChunk;
+    public WorldMap worldMap;
     public Location pos;
     public Health health;
     public Appearance appearance;
@@ -44,12 +44,12 @@ public class Pawn implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
-        return mapChunk.getCellTypeAt(tx, ty, tz).blocks;
+        return worldMap.getCellTypeAt(tx, ty, tz).blocks;
     }
 
     @Override
     public boolean canOccupy(int tx, int ty, int tz) {
-        return mapChunk.getCellTypeAt(tx, ty, tz).blocks;
+        return worldMap.getCellTypeAt(tx, ty, tz).blocks;
     }
 
     @Override

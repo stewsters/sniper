@@ -28,17 +28,17 @@ public class WalkAction extends Action {
         int yPos = pawn.pos.current.y + offset.y;
         int zPos = pawn.pos.current.z;
 
-        if (mapChunk.isOutsideMap(xPos, yPos, zPos)) {
+        if (worldMap.isOutsideMap(xPos, yPos, zPos)) {
             return ActionResult.FAILURE;
         }
 
         //See if there is an actor there
-        Pawn target = mapChunk.pawnAt(xPos, yPos, zPos);
+        Pawn target = worldMap.pawnAt(xPos, yPos, zPos);
         if (target != null && target != pawn) {
             return new ActionResult(new AttackAction(pawn, target));
         }
 
-        if (mapChunk.getCellTypeAt(xPos, yPos, zPos) == TileType.CLOSED_DOOR) {
+        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.CLOSED_DOOR) {
             return new ActionResult(new OpenDoorAction(pawn, new Point3i(xPos, yPos, zPos)));
         }
 
@@ -49,15 +49,15 @@ public class WalkAction extends Action {
 
 
         //TODO: fix this
-        pawn.mapChunk.updatePawnPos(pawn, xPos, yPos, zPos);
+        pawn.worldMap.updatePawnPos(pawn, xPos, yPos, zPos);
 
 
         // See if the hero stepped on anything interesting that would cause them to react.
 
-        if (mapChunk.getCellTypeAt(xPos, yPos, zPos) == TileType.UP_STAIR) {
+        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.UP_STAIR) {
             return new ActionResult(true, new AscendAction(pawn));
         }
-        if (mapChunk.getCellTypeAt(xPos, yPos, zPos) == TileType.DOWN_STAIR) {
+        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.DOWN_STAIR) {
             return new ActionResult(true, new DescendAction(pawn));
         }
 

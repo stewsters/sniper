@@ -23,11 +23,11 @@ public class CloseDoorAction extends Action {
         if (pawn.canOccupy(pos.x, pos.y, pos.z)) {
             return ActionResult.FAILURE;
         }
-        if (mapChunk.getCellTypeAt(pos.x, pos.y, pos.z) != TileType.OPEN_DOOR) {
+        if (worldMap.getCellTypeAt(pos.x, pos.y, pos.z) != TileType.OPEN_DOOR) {
             return ActionResult.FAILURE;
         }
 
-        mapChunk.tiles[pos.x][pos.y][pos.z] = TileType.CLOSED_DOOR;
+        worldMap.tiles[pos.x][pos.y][pos.z] = TileType.CLOSED_DOOR;
         return ActionResult.SUCCESS;
     }
 }
