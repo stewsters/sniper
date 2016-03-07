@@ -1,5 +1,6 @@
 package com.stewsters.sniper.generator;
 
+import com.badlogic.gdx.Gdx;
 import com.stewsters.sniper.component.AiControl;
 import com.stewsters.sniper.component.Appearance;
 import com.stewsters.sniper.component.Health;
@@ -50,6 +51,14 @@ public class CityGen {
         int y = mapChunk.getYSize() / 2;
         int z = 0;
 
+        addPlayer(mapChunk, x, y, z);
+
+        return mapChunk;
+    }
+
+
+    public static MapChunk addPlayer(MapChunk mapChunk, int x, int y, int z) {
+
         Pawn player = new Pawn();
 
         player.pos = new Location(new Point3i(x, y, z));
@@ -58,13 +67,14 @@ public class CityGen {
         player.doorOpener = true;
 
         player.playerControl = new PlayerControl(player);
+        Gdx.input.setInputProcessor(player.playerControl);
+
         mapChunk.addPawn(player);
+        mapChunk.player = player;
 
         return mapChunk;
 
-
     }
-
 
     public static MapChunk addEnemy(MapChunk mapChunk, int x, int y, int z) {
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.stewsters.sniper.generator.CityGen;
 import com.stewsters.sniper.map.MapChunk;
 import com.stewsters.sniper.systems.MapRenderSystem;
+import com.stewsters.sniper.systems.TurnProcessSystem;
 
 public class GameScreen implements Screen {
 
@@ -16,7 +17,9 @@ public class GameScreen implements Screen {
     SpriteBatch spriteBatch;
     OrthographicCamera camera;
     MapChunk mapChunk;
+
     MapRenderSystem mapRenderSystem;
+    TurnProcessSystem turnProcessSystem;
 
     @Override
     public void show() {
@@ -36,10 +39,12 @@ public class GameScreen implements Screen {
 
         //set up systems
         mapRenderSystem = new MapRenderSystem(this, spriteBatch, mapChunk);
+        turnProcessSystem = new TurnProcessSystem(mapChunk);
     }
 
     @Override
     public void render(float delta) {
+        turnProcessSystem.process();
         Gdx.gl.glClearColor(1f, 0.6f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
