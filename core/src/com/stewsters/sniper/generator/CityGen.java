@@ -14,6 +14,7 @@ import com.stewsters.util.math.Point3i;
 
 import static com.stewsters.sniper.game.TileType.AIR;
 import static com.stewsters.sniper.game.TileType.CONCRETE_FLOOR;
+import static com.stewsters.util.math.MatUtils.d;
 
 public class CityGen {
 
@@ -53,6 +54,16 @@ public class CityGen {
 
         addPlayer(mapChunk, x, y, z);
 
+
+        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+//        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+//        addEnemy(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+
+        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+//        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+//        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+//        addDog(mapChunk, d(mapChunk.getXSize()) - 1, d(mapChunk.getYSize()) - 1, 0);
+
         return mapChunk;
     }
 
@@ -82,8 +93,26 @@ public class CityGen {
 
         player.pos = new Location(new Point3i(x, y, z));
         player.health = new Health(1);
-        player.appearance = new Appearance(TextureManager.player);
+        player.appearance = new Appearance(TextureManager.soldier);
         player.doorOpener = true;
+        player.chaser = false;
+
+        player.aiControl = new AiControl(player);
+        mapChunk.addPawn(player);
+        return mapChunk;
+
+    }
+
+
+    public static MapChunk addDog(MapChunk mapChunk, int x, int y, int z) {
+
+        Pawn player = new Pawn();
+
+        player.pos = new Location(new Point3i(x, y, z));
+        player.health = new Health(1);
+        player.appearance = new Appearance(TextureManager.dog);
+        player.doorOpener = false;
+        player.chaser = true;
 
         player.aiControl = new AiControl(player);
         mapChunk.addPawn(player);

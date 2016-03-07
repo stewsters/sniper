@@ -44,7 +44,7 @@ public class MapRenderSystem {
 
                     Pawn pawn = region.pawnAt(x, y, gameScreen.zLevel);
                     if (pawn != null) {
-                        spriteBatch.draw(pawn.appearance.textureRegion, x, y, 1, 1);
+                        spriteBatch.draw(pawn.appearance.textureRegion, pawn.pos.getRenderedX(),  pawn.pos.getRenderedY(), 1, 1);
                     }
 
 //                    spriteBatch.setColor(1, 1, 1, 1);

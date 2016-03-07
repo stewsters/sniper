@@ -28,6 +28,10 @@ public class WalkAction extends Action {
         int yPos = pawn.pos.current.y + offset.y;
         int zPos = pawn.pos.current.z;
 
+        if (mapChunk.isOutsideMap(xPos, yPos, zPos)) {
+            return ActionResult.FAILURE;
+        }
+
         //See if there is an actor there
         Pawn target = mapChunk.pawnAt(xPos, yPos, zPos);
         if (target != null && target != pawn) {

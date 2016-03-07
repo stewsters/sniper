@@ -14,8 +14,8 @@ public class AiControl extends Component {
     private Pawn pawn;
     ChebyshevHeuristic3d distance;
 
-    public AiControl(Pawn player) {
-        this.pawn = player;
+    public AiControl(Pawn pawn) {
+        this.pawn = pawn;
     }
 
     public Action act() {

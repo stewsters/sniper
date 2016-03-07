@@ -26,7 +26,7 @@ public class AscendAction extends Action {
         mapChunk.removePawn(pawn);
 
         pawn.pos.current.z = pawn.pos.current.z + 1;
-        pawn.pos.previous = pawn.pos.current;
+        pawn.pos.previous = pawn.pos.current.copy();
 
         mapChunk.addPawn(pawn);
 

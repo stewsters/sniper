@@ -12,13 +12,16 @@ public class CloseAdjacentDoors extends Action {
     @Override
     public ActionResult onPerform() {
 
+        int z = pawn.pos.current.z;
         for (int x = pawn.pos.current.x - 1; x <= pawn.pos.current.x + 1; x++) {
             for (int y = pawn.pos.current.y - 1; y <= pawn.pos.current.y + 1; y++) {
-                if (mapChunk.getCellTypeAt(x, y, pawn.pos.current.z) == TileType.OPEN_DOOR
-                        && !pawn.canOccupy(x, y, pawn.pos.current.z)
-                        && mapChunk.pawnAt(x, y, pawn.pos.current.z) == null) {
 
-                    mapChunk.setCellTypeAt(x, y, pawn.pos.current.z, TileType.CLOSED_DOOR);
+                if (!mapChunk.isOutsideMap(x, y, z)
+                        && mapChunk.getCellTypeAt(x, y, z) == TileType.OPEN_DOOR
+                        && !pawn.canOccupy(x, y, z)
+                        && mapChunk.pawnAt(x, y, z) == null) {
+
+                    mapChunk.setCellTypeAt(x, y, z, TileType.CLOSED_DOOR);
                     return ActionResult.SUCCESS;
                 }
             }

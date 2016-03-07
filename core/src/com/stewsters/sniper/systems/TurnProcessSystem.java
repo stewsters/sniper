@@ -17,6 +17,7 @@ public class TurnProcessSystem {
         this.mapChunk = mapChunk;
     }
 
+    //TODO: something is jacked here, may want to replace with a priorityQueue
     public void process() {
 
         List<Pawn> pawnList = mapChunk.getPawnList();

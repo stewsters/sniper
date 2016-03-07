@@ -108,4 +108,7 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
     }
 
 
+    public boolean isOutsideMap(int x, int y, int z) {
+        return (x < 0 || x >= xSize || y < 0 || y >= ySize || z < 0 || z >= zSize);
+    }
 }
