@@ -80,6 +80,8 @@ public class CityGen {
         player.playerControl = new PlayerControl(player);
         Gdx.input.setInputProcessor(player.playerControl);
 
+        player.gameTurn = 0;
+
         mapChunk.addPawn(player);
         mapChunk.player = player;
 
@@ -98,6 +100,9 @@ public class CityGen {
         player.chaser = false;
 
         player.aiControl = new AiControl(player);
+
+        player.gameTurn = d(99);
+
         mapChunk.addPawn(player);
         return mapChunk;
 
@@ -115,6 +120,9 @@ public class CityGen {
         player.chaser = true;
 
         player.aiControl = new AiControl(player);
+
+        player.gameTurn = d(99);
+
         mapChunk.addPawn(player);
         return mapChunk;
 

@@ -5,14 +5,13 @@ import com.stewsters.sniper.action.WalkAction;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.util.math.MatUtils;
 import com.stewsters.util.math.Point2i;
-import com.stewsters.util.pathing.threeDimention.pathfinder.ChebyshevHeuristic3d;
 
 import java.awt.*;
 
 public class AiControl extends Component {
 
     private Pawn pawn;
-    ChebyshevHeuristic3d distance;
+
 
     public AiControl(Pawn pawn) {
         this.pawn = pawn;

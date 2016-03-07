@@ -20,10 +20,12 @@ public class Pawn implements Mover3d {
 
     public PlayerControl playerControl;
     public AiControl aiControl;
-    // ai control
+
     private Action nextAction;
     public boolean doorOpener;
     public boolean chaser;
+
+    public long gameTurn;
 
     public void setNextAction(Action nextAction) {
 
@@ -55,4 +57,7 @@ public class Pawn implements Mover3d {
         return 0;
     }
 
+    public Long getGameTurn() {
+        return gameTurn;
+    }
 }

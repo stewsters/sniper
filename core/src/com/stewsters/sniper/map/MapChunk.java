@@ -8,8 +8,8 @@ import com.stewsters.util.mapgen.CellType;
 import com.stewsters.util.mapgen.threeDimension.GeneratedMap3d;
 import com.stewsters.util.pathing.threeDimention.shared.TileBasedMap3d;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
     public static final int xSize = 64;
@@ -20,17 +20,24 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
     public TileType[][][] tiles;
 
     private Pawn[][][] pawns;
-    private List<Pawn> pawnList;
     private Item[][][] items;
 
     public Pawn player;
+    public PriorityQueue<Pawn> pawnQueue;
 
 
     public MapChunk() {
         tiles = new TileType[xSize][ySize][zSize];
         pawns = new Pawn[xSize][ySize][zSize];
-        pawnList = new ArrayList<Pawn>();
+//        pawnList = new ArrayList<Pawn>();
         items = new Item[xSize][ySize][zSize];
+
+        pawnQueue = new PriorityQueue<Pawn>(new Comparator<Pawn>() {
+            @Override
+            public int compare(Pawn o1, Pawn o2) {
+                return o1.getGameTurn().compareTo(o2.getGameTurn());
+            }
+        });
     }
 
     @Override
@@ -67,13 +74,13 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
     // Pawn
     public void addPawn(Pawn pawn) {
         pawn.mapChunk = this;
-        pawnList.add(pawn);
+        pawnQueue.add(pawn);
         pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = pawn;
     }
 
     public void removePawn(Pawn pawn) {
         pawn.mapChunk = null;
-        pawnList.remove(pawn);
+        pawnQueue.remove(pawn);
         pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = null;
     }
 
@@ -85,10 +92,6 @@ public class MapChunk implements GeneratedMap3d, TileBasedMap3d {
         removePawn(pawn);
         pawn.pos.setWithTransition(xPos, yPos, zPos);
         addPawn(pawn);
-    }
-
-    public List<Pawn> getPawnList() {
-        return pawnList;
     }
 
     // Item

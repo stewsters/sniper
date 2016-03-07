@@ -6,12 +6,9 @@ import com.stewsters.sniper.action.ActionResult;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.map.MapChunk;
 
-import java.util.List;
-
 public class TurnProcessSystem {
 
     private MapChunk mapChunk;
-    private int currentPawn = 0;
 
     public TurnProcessSystem(MapChunk mapChunk) {
         this.mapChunk = mapChunk;
@@ -20,49 +17,49 @@ public class TurnProcessSystem {
     //TODO: something is jacked here, may want to replace with a priorityQueue
     public void process() {
 
-        List<Pawn> pawnList = mapChunk.getPawnList();
-
-        if (pawnList.size() <= 0)
+        // Break early if there is no one to work on
+        if (mapChunk.pawnQueue.size() <= 0)
             return;
 
-        Pawn current = pawnList.get(currentPawn);
+        Pawn current = mapChunk.pawnQueue.peek();
         Action action = current.getAction();
+
         if (action == null) {
             if (current.aiControl == null && current.playerControl == null) {
-                Gdx.app.log("Stage", "Inactive Pawn");
-                currentPawn = (currentPawn + 1) % pawnList.size();
+                Gdx.app.log("Error", "Inactive Pawn - removed");
+                mapChunk.pawnQueue.poll();
             }
+
             return;
         }
 
-        Action nextAction = null;
+        // Do action
         while (true) {
             ActionResult result = action.onPerform();
 
+            // if it was not successful, then
             if (!result.succeeded) {
-                if (pawnList.get(currentPawn).aiControl != null) {
-//                    new RestAction(pawnList.get(currentPawn)).onPerform();
+                if (current.aiControl != null) {
+                    // AI player if action failed
+                    Gdx.app.log("Error", "AI player action failed");
                     break;
                 }
-
                 return;
             }
 
 
             if (result.alternative == null) {
-                nextAction = result.nextAction;
+                current.setNextAction(result.nextAction);
                 break;
             }
             action = result.alternative;
 
         }
-        if (nextAction != null) {
-            current.setNextAction(nextAction);
-        }
 
-        if (pawnList.size() == 0) {
-            currentPawn = 0;
-        } else
-            currentPawn = (currentPawn + 1) % pawnList.size();
+
+        mapChunk.pawnQueue.poll();
+        // increment time,
+        current.gameTurn += 100;
+        mapChunk.pawnQueue.add(current);
     }
 }
