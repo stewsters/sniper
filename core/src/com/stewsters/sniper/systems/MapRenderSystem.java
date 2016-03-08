@@ -33,7 +33,7 @@ public class MapRenderSystem {
         for (int x = 0; x < region.getXSize(); x++) {
             for (int y = 0; y < region.getYSize(); y++) {
 
-                TileType tileType = region.tiles[x][y][gameScreen.zLevel];
+                TileType tileType = region.getCellTypeAt(x,y,gameScreen.zLevel);
 
                 if (tileType.texture != null) {
 
@@ -50,21 +50,21 @@ public class MapRenderSystem {
 //                    spriteBatch.setColor(1, 1, 1, 1);
 //                    spriteBatch.draw(appearance.textureRegion, position.x, position.y, 1, 1);
 
-                } else if (gameScreen.zLevel - 1 >= 0 && region.tiles[x][y][gameScreen.zLevel - 1].texture != null) {
+                } else if (gameScreen.zLevel - 1 >= 0 && region.getCellTypeAt(x,y,gameScreen.zLevel - 1).texture != null) {
 
                     spriteBatch.setColor(0.5f, 0.5f, 0.5f, 1);
 
-                    spriteBatch.draw(region.tiles[x][y][gameScreen.zLevel - 1].texture, x, y, 1, 1);
+                    spriteBatch.draw(region.getCellTypeAt(x,y,gameScreen.zLevel - 1).texture, x, y, 1, 1);
 
                     Pawn pawn = region.pawnAt(x, y, gameScreen.zLevel - 1);
                     if (pawn != null) {
                         spriteBatch.draw(pawn.appearance.textureRegion, x, y, 1, 1);
                     }
 
-                } else if (gameScreen.zLevel - 2 >= 0 && region.tiles[x][y][gameScreen.zLevel - 2].texture != null) {
+                } else if (gameScreen.zLevel - 2 >= 0 && region.getCellTypeAt(x,y,gameScreen.zLevel - 2).texture != null) {
 
                     spriteBatch.setColor(0.25f, 0.25f, 0.25f, 1);
-                    spriteBatch.draw(region.tiles[x][y][gameScreen.zLevel - 2].texture, x, y, 1, 1);
+                    spriteBatch.draw(region.getCellTypeAt(x,y,gameScreen.zLevel - 2).texture, x, y, 1, 1);
                     Pawn pawn = region.pawnAt(x, y, gameScreen.zLevel - 1);
                     if (pawn != null) {
                         spriteBatch.draw(pawn.appearance.textureRegion, x, y, 1, 1);

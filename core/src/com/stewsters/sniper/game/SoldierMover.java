@@ -13,16 +13,20 @@ public class SoldierMover implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
-        if (map.tiles[tx][ty][tz].blocks)
+        TileType targetTileType = map.getCellTypeAt(tx,ty,tz);
+
+        if (targetTileType.blocks)
             return false; // Cant go through walls
 
-        if (map.tiles[tx][ty][tz].floor)
+        if (targetTileType.floor)
             return true;
 
-        if (map.tiles[tx][ty][tz] == TileType.DOWN_STAIR && map.tiles[sx][sy][sz] == TileType.UP_STAIR)
+        TileType startTileType = map.getCellTypeAt(sx,sy,sz);
+
+        if (targetTileType == TileType.DOWN_STAIR && startTileType == TileType.UP_STAIR)
             return true; // Can go up stairs
 
-        if (map.tiles[tx][ty][tz] == TileType.UP_STAIR && map.tiles[sx][sy][sz] == TileType.DOWN_STAIR)
+        if (targetTileType == TileType.UP_STAIR && startTileType == TileType.DOWN_STAIR)
             return true; // Can go down stairs
 
         return false;
@@ -30,7 +34,7 @@ public class SoldierMover implements Mover3d {
 
     @Override
     public boolean canOccupy(int tx, int ty, int tz) {
-        return !map.tiles[tx][ty][tz].blocks;
+        return !map.getCellTypeAt(tx,ty,tz).blocks;
     }
 
     @Override

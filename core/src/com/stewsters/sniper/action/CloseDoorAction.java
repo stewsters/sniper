@@ -27,7 +27,7 @@ public class CloseDoorAction extends Action {
             return ActionResult.FAILURE;
         }
 
-        worldMap.tiles[pos.x][pos.y][pos.z] = TileType.CLOSED_DOOR;
+        worldMap.setCellTypeAt(pos.x,pos.y,pos.z, TileType.CLOSED_DOOR);
         return ActionResult.SUCCESS;
     }
 }

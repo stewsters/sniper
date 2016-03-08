@@ -12,25 +12,25 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
-    public static final int xSize = 64;
-    public static final int ySize = 64;
-    public static final int zSize = 32;
 
 
-    public TileType[][][] tiles;
+    public static final int xSize = 12;
+    public static final int ySize = 12;
+    public static final int zSize = 1; // must always be one right now
 
-    private Pawn[][][] pawns;
-    private Item[][][] items;
+    private MapChunk[][] chunks;
 
     public Pawn player;
     public PriorityQueue<Pawn> pawnQueue;
 
 
     public WorldMap() {
-        tiles = new TileType[xSize][ySize][zSize];
-        pawns = new Pawn[xSize][ySize][zSize];
-//        pawnList = new ArrayList<Pawn>();
-        items = new Item[xSize][ySize][zSize];
+        chunks = new MapChunk[xSize][ySize];
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                chunks[x][y] = new MapChunk();
+            }
+        }
 
         pawnQueue = new PriorityQueue<Pawn>(new Comparator<Pawn>() {
             @Override
@@ -40,19 +40,28 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
         });
     }
 
+
+    private static int tile(int globalCoord) {
+        return globalCoord % MapChunk.xSize;
+    }
+
+    private static int chunk(int globalCoord) {
+        return globalCoord / MapChunk.xSize;
+    }
+
     @Override
     public int getXSize() {
-        return xSize;
+        return xSize * MapChunk.xSize;
     }
 
     @Override
     public int getYSize() {
-        return ySize;
+        return ySize * MapChunk.ySize;
     }
 
     @Override
     public int getZSize() {
-        return zSize;
+        return zSize * MapChunk.zSize;
     }
 
     @Override
@@ -62,12 +71,12 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
 
     @Override
     public TileType getCellTypeAt(int x, int y, int z) {
-        return tiles[x][y][z];
+        return chunks[chunk(x)][chunk(y)].tiles[tile(x)][tile(y)][z];
     }
 
     @Override
     public void setCellTypeAt(int x, int y, int z, CellType cellType) {
-        tiles[x][y][z] = (TileType) cellType;
+        chunks[chunk(x)][chunk(y)].tiles[tile(x)][tile(y)][z] = (TileType) cellType;
     }
 
 
@@ -75,17 +84,26 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
     public void addPawn(Pawn pawn) {
         pawn.worldMap = this;
         pawnQueue.add(pawn);
-        pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = pawn;
+        int x = pawn.pos.current.x;
+        int y = pawn.pos.current.y;
+        int z = pawn.pos.current.z;
+
+        chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z] = pawn;
     }
 
     public void removePawn(Pawn pawn) {
         pawn.worldMap = null;
         pawnQueue.remove(pawn);
-        pawns[pawn.pos.current.x][pawn.pos.current.y][pawn.pos.current.z] = null;
+
+        int x = pawn.pos.current.x;
+        int y = pawn.pos.current.y;
+        int z = pawn.pos.current.z;
+
+        chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z] = null;
     }
 
-    public Pawn pawnAt(int xPos, int yPos, int zPos) {
-        return pawns[xPos][yPos][zPos];
+    public Pawn pawnAt(int x, int y, int z) {
+        return chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z];
     }
 
     public void updatePawnPos(Pawn pawn, int xPos, int yPos, int zPos) {
@@ -97,21 +115,30 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
     // Item
     public void addItem(Item item) {
         item.worldMap = this;
-        items[item.pos.x][item.pos.y][item.pos.z] = item;
-        //        itemList.add(item);
+
+        int x = item.pos.x;
+        int y = item.pos.y;
+        int z = item.pos.z;
+
+        chunks[chunk(x)][chunk(y)].items[tile(x)][tile(y)][z] = item;
     }
 
     public void removeItem(Item item) {
         item.worldMap = null;
-        items[item.pos.x][item.pos.y][item.pos.z] = null;
+
+        int x = item.pos.x;
+        int y = item.pos.y;
+        int z = item.pos.z;
+
+        chunks[chunk(x)][chunk(y)].items[tile(x)][tile(y)][z] = null;
     }
 
     public Item itemAt(int x, int y, int z) {
-        return items[x][y][z];
+        return chunks[chunk(x)][chunk(y)].items[tile(x)][tile(y)][z];
     }
 
 
     public boolean isOutsideMap(int x, int y, int z) {
-        return (x < 0 || x >= xSize || y < 0 || y >= ySize || z < 0 || z >= zSize);
+        return (x < 0 || x >= xSize * MapChunk.xSize || y < 0 || y >= ySize * MapChunk.ySize || z < 0 || z >= zSize * MapChunk.zSize);
     }
 }
