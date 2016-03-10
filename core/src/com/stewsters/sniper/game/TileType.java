@@ -6,10 +6,17 @@ import com.stewsters.util.mapgen.CellType;
 public enum TileType implements CellType {
 
     AIR(false, false),
+    WATER(false, false),
+
     GRASS(true, false),
     CONCRETE_FLOOR(true, false),
     CONCRETE_WALL(false, true),
-    PAVEMENT_FLOOR(true, false),
+
+    SIDEWALK_FLOOR(true, false),
+
+    ROAD_FLOOR(true,false),
+    DIRT_WALL(false,true),
+    WOOD_FLOOR(true,false),
 
     UP_STAIR(false, false),
     DOWN_STAIR(false, false),
@@ -29,10 +36,17 @@ public enum TileType implements CellType {
 
     public static void setupTextures() {
 
+        WATER.texture = TextureManager.atlas.findRegion("water");
+
         GRASS.texture = TextureManager.atlas.findRegion("grass");
         CONCRETE_FLOOR.texture = TextureManager.atlas.findRegion("concrete_floor");
         CONCRETE_WALL.texture = TextureManager.atlas.findRegion("concrete_wall");
-        PAVEMENT_FLOOR.texture = TextureManager.atlas.findRegion("pavement_floor");
+
+        SIDEWALK_FLOOR.texture = TextureManager.atlas.findRegion("sidewalk");
+
+        ROAD_FLOOR.texture = TextureManager.atlas.findRegion("cobble");
+        DIRT_WALL.texture = TextureManager.atlas.findRegion("dirt");
+        WOOD_FLOOR.texture= TextureManager.atlas.findRegion("wood");
 
         UP_STAIR.texture = TextureManager.atlas.findRegion("up_stair");
         DOWN_STAIR.texture = TextureManager.atlas.findRegion("down_stair");

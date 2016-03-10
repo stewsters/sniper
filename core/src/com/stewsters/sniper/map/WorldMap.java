@@ -64,6 +64,18 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
         return zSize * MapChunk.zSize;
     }
 
+    public int getXChunkSize() {
+        return xSize;
+    }
+
+    public int getYChunkSize() {
+        return ySize;
+    }
+
+    public MapChunk getChunk(int x, int y) {
+        return chunks[x][y];
+    }
+
     @Override
     public void pathFinderVisited(int x, int y, int z) {
 

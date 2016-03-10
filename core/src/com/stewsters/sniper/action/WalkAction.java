@@ -38,12 +38,13 @@ public class WalkAction extends Action {
             return new ActionResult(new AttackAction(pawn, target));
         }
 
-        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.CLOSED_DOOR) {
+        TileType targetTileType = worldMap.getCellTypeAt(xPos, yPos, zPos);
+        if (targetTileType == TileType.CLOSED_DOOR) {
             return new ActionResult(new OpenDoorAction(pawn, new Point3i(xPos, yPos, zPos)));
         }
 
         // See if we can walk there.
-        if (pawn.canTraverse(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z, xPos, yPos, zPos)) {
+        if (!pawn.canTraverse(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z, xPos, yPos, zPos)) {
             return ActionResult.FAILURE;
         }
 
@@ -54,10 +55,10 @@ public class WalkAction extends Action {
 
         // See if the hero stepped on anything interesting that would cause them to react.
 
-        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.UP_STAIR) {
+        if (targetTileType == TileType.UP_STAIR) {
             return new ActionResult(true, new AscendAction(pawn));
         }
-        if (worldMap.getCellTypeAt(xPos, yPos, zPos) == TileType.DOWN_STAIR) {
+        if (targetTileType == TileType.DOWN_STAIR) {
             return new ActionResult(true, new DescendAction(pawn));
         }
 

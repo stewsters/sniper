@@ -44,17 +44,17 @@ public class Pawn implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
-        return worldMap.getCellTypeAt(tx, ty, tz).blocks;
+        return !worldMap.getCellTypeAt(tx, ty, tz).blocks;
     }
 
     @Override
     public boolean canOccupy(int tx, int ty, int tz) {
-        return worldMap.getCellTypeAt(tx, ty, tz).blocks;
+        return !worldMap.getCellTypeAt(tx, ty, tz).blocks;
     }
 
     @Override
     public float getCost(int sx, int sy, int sz, int tx, int ty, int tz) {
-        return 0;
+        return 1;
     }
 
     public Long getGameTurn() {

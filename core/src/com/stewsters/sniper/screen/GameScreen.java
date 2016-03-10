@@ -12,7 +12,7 @@ import com.stewsters.sniper.systems.TurnProcessSystem;
 
 public class GameScreen implements Screen {
 
-    public int zLevel = 0;
+    public int zLevel;
 
     SpriteBatch spriteBatch;
     OrthographicCamera camera;
@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
 
 
         worldMap = CityGen.populate(CityGen.gen());
-
+        zLevel = worldMap.player.pos.current.z;
 
         //set up systems
         mapRenderSystem = new MapRenderSystem(this, spriteBatch, worldMap);
@@ -45,6 +45,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         turnProcessSystem.process();
+
         Gdx.gl.glClearColor(1f, 0.6f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

@@ -1,6 +1,7 @@
 package com.stewsters.sniper.component;
 
 import com.stewsters.sniper.action.Action;
+import com.stewsters.sniper.action.RestAction;
 import com.stewsters.sniper.action.WalkAction;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.util.math.MatUtils;
@@ -40,12 +41,8 @@ public class AiControl extends Component {
                     x = MatUtils.getIntInRange(-1, 1);
                     y = MatUtils.getIntInRange(-1, 1);
 
-                } else if (Math.abs(dx) > Math.abs(dy)) {
+                } else  {
                     x = MatUtils.limit(player.pos.current.x - pawn.pos.current.x, -1, 1);
-                    y = 0;
-
-                } else {
-                    x = 0;
                     y = MatUtils.limit(player.pos.current.y - pawn.pos.current.y, -1, 1);
                 }
 

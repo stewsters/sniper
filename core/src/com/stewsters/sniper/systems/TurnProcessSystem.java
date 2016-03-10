@@ -25,39 +25,34 @@ public class TurnProcessSystem {
         Action action = current.getAction();
 
         if (action == null) {
-            if (current.aiControl == null && current.playerControl == null) {
-                Gdx.app.log("Error", "Inactive Pawn - removed");
-                worldMap.pawnQueue.poll();
-            }
+//            if (current.aiControl == null && current.playerControl == null) {
+//                Gdx.app.log("Error", "Inactive Pawn - removed");
+//                worldMap.pawnQueue.poll();
+//            }
 
-            return;
+            return; // Looks like the player needs to choose what to do
         }
 
-        // Do action
+        // Do action until it succeeds
         while (true) {
             ActionResult result = action.onPerform();
 
             // if it was not successful, then
             if (!result.succeeded) {
-                if (current.aiControl != null) {
-                    // AI player if action failed
-                    Gdx.app.log("Error", "AI player action failed");
+                if(current.aiControl!=null)
                     break;
-                }
                 return;
             }
-
 
             if (result.alternative == null) {
                 current.setNextAction(result.nextAction);
                 break;
             }
-            action = result.alternative;
 
+            action = result.alternative;
         }
 
-
-        worldMap.pawnQueue.poll();
+        current = worldMap.pawnQueue.poll();
         // increment time,
         current.gameTurn += 100;
         worldMap.pawnQueue.add(current);

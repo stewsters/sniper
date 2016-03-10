@@ -5,9 +5,9 @@ import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.game.TileType;
 
 public class MapChunk {
-    public static final int xSize = 64;
-    public static final int ySize = 64;
-    public static final int zSize = 32;
+    public static final int xSize = 32;
+    public static final int ySize = 32;
+    public static final int zSize = 16;
 
     public TileType[][][] tiles;
     public Pawn[][][] pawns;

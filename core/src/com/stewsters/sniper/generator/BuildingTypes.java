@@ -2,11 +2,12 @@ package com.stewsters.sniper.generator;
 
 public enum BuildingTypes {
 
-    BARE(0, true),
-    ONE_HIGH(1, true),
-    FULL_WITH_WINDOWS(2, false),
-    FILL_WALLED_IN(2, false),
-    OLD_CHURCH(0, true);
+    BARE(false, true),
+//    ONE_HIGH(1, true),
+    FULL_WITH_WINDOWS(true, false),
+    FILL_WALLED_IN(true, false),
+    OLD_CHURCH(true, true); //bell tower
+
     // Bare with supports - construction
     // one high with supports -
     // full with holes
@@ -14,12 +15,12 @@ public enum BuildingTypes {
 
     public int maxHeight = 8;
 
-    BuildingTypes(int wallHeight, boolean cornerPillar) {
-        this.wall = wallHeight;
+    BuildingTypes(boolean wall, boolean cornerPillar) {
+        this.wall = wall;
         this.cornerPillar = cornerPillar;
     }
 
 
-    public final int wall;
+    public final boolean wall;
     public final boolean cornerPillar;
 }
