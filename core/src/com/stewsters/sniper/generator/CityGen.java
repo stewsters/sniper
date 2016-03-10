@@ -101,9 +101,6 @@ public class CityGen {
                 lot.x2 - extendedWalk,
                 lot.y2 - extendedWalk);
 
-        int stairX = MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1);
-        int stairY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 2);
-
         for (int floor = 0; floor < totalFloors; floor++) {
 
             solidLevel(mapChunk, foundation, groundHeight + floor, TileType.CONCRETE_FLOOR);
@@ -114,14 +111,15 @@ public class CityGen {
 
         }
 
+        solidLevel(mapChunk, foundation, groundHeight + totalFloors, TileType.SIDEWALK_FLOOR);
+
+        int stairX = MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1);
+        int stairY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 2);
+
         for (int floor = 0; floor < totalFloors; floor++) {
             mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor] = TileType.UP_STAIR;
             mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor + 1] = TileType.DOWN_STAIR;
-
         }
-
-        solidLevel(mapChunk, foundation, groundHeight + totalFloors, TileType.SIDEWALK_FLOOR);
-        mapChunk.tiles[stairX][stairY + ((totalFloors - 1) % 2)][groundHeight + totalFloors] = TileType.DOWN_STAIR;
 
         int top = (totalFloors) + groundHeight;
         fillColumn(mapChunk, foundation.x1, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
