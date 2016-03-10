@@ -70,14 +70,30 @@ public class CityGen {
 
         Rect lot = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
 
+        genBuilding(mapChunk, lot);
+    }
+
+    private static void constructBuildings(MapChunk mapChunk, int minSize) {
+
+        // make a lot representing the whole, except for the street
+        Rect whole = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
+
+        List<Rect> lots = RectSubdivider.divide(whole, minSize);
+
+        for (Rect lot : lots) {
+            genBuilding(mapChunk, lot);
+        }
+
+    }
+
+    private static void genBuilding(MapChunk mapChunk, Rect lot) {
+
         // ySize in floors
         int totalFloors = MatUtils.getIntInRange(2, (mapChunk.zSize - groundHeight - 2));
 
         // This gives you the separation level around the base
         int extendedWalk = MatUtils.getIntInRange(1, 2);
-        boolean wall = MatUtils.getBoolean();
 
-        boolean pillars = !wall;
 
         Rect foundation = new Rect(
                 lot.x1 + extendedWalk,
@@ -85,20 +101,23 @@ public class CityGen {
                 lot.x2 - extendedWalk,
                 lot.y2 - extendedWalk);
 
-
         int stairX = MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1);
-        int stairY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 1);
+        int stairY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 2);
 
         for (int floor = 0; floor < totalFloors; floor++) {
 
             solidLevel(mapChunk, foundation, groundHeight + floor, TileType.CONCRETE_FLOOR);
 
-            if (wall) {
+            if (MatUtils.d(5) != 1) {
                 wallWithWindows(mapChunk, foundation, groundHeight + (floor), 1, 3, TileType.CONCRETE_WALL, TileType.CONCRETE_FLOOR);
             }
 
+        }
+
+        for (int floor = 0; floor < totalFloors; floor++) {
             mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor] = TileType.UP_STAIR;
             mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor + 1] = TileType.DOWN_STAIR;
+
         }
 
         solidLevel(mapChunk, foundation, groundHeight + totalFloors, TileType.SIDEWALK_FLOOR);
@@ -109,66 +128,6 @@ public class CityGen {
         fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x2, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
-
-    }
-
-    private static void constructBuildings(MapChunk mapChunk, int minSize) {
-
-        //check average ySize for this
-
-        // make a lot representing the whole, except for the street
-        Rect whole = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
-
-
-        List<Rect> lots = RectSubdivider.divide(whole, minSize);
-
-        for (Rect lot : lots) {
-
-
-            BuildingTypes buildingTypes = MatUtils.randVal(BuildingTypes.values());
-
-
-            // ySize in floors
-            int totalFloors = MatUtils.getIntInRange(1, buildingTypes.maxHeight);
-
-            // This gives you the separation level around
-            int extendedWalk = MatUtils.getIntInRange(1, 2);
-
-            Rect foundation = new Rect(
-                    lot.x1 + extendedWalk,
-                    lot.y1 + extendedWalk,
-                    lot.x2 - extendedWalk,
-                    lot.y2 - extendedWalk);
-
-
-
-            int stairX = MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1);
-            int stairY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 1);
-
-            for (int floor = 0; floor < totalFloors; floor++) {
-
-
-                solidLevel(mapChunk, foundation, groundHeight + floor, TileType.CONCRETE_FLOOR);
-
-                if (buildingTypes.wall) {
-                    wallWithWindows(mapChunk, foundation, groundHeight + (floor), 1, 3, TileType.CONCRETE_WALL, TileType.CONCRETE_FLOOR);
-                }
-
-                mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor] = TileType.UP_STAIR;
-                mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor + 1] = TileType.DOWN_STAIR;
-            }
-            solidLevel(mapChunk, foundation, groundHeight + totalFloors, TileType.SIDEWALK_FLOOR);
-            mapChunk.tiles[stairX][stairY + ((totalFloors - 1) % 2)][groundHeight + totalFloors] = TileType.DOWN_STAIR;
-
-            int top = (totalFloors) + groundHeight;
-            fillColumn(mapChunk, foundation.x1, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
-            fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
-            fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
-            fillColumn(mapChunk, foundation.x2, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
-
-
-        }
-
     }
 
 
