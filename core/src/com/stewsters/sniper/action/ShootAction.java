@@ -3,11 +3,11 @@ package com.stewsters.sniper.action;
 
 import com.stewsters.sniper.entity.Pawn;
 
-public class AttackAction extends Action {
+public class ShootAction extends Action {
 
     Pawn target;
 
-    public AttackAction(Pawn pawn, Pawn target) {
+    public ShootAction(Pawn pawn, Pawn target) {
         super(pawn);
         this.target = target;
     }
@@ -18,7 +18,7 @@ public class AttackAction extends Action {
         target.health.damage(1);
 
         if (target.health.getHP() <= 0) {
-            target.worldMap.removePawn(target);
+            pawn.worldMap.removePawn(target);
         }
 
         return ActionResult.SUCCESS;

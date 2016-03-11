@@ -1,7 +1,7 @@
 package com.stewsters.sniper.component;
 
 import com.stewsters.sniper.action.Action;
-import com.stewsters.sniper.action.RestAction;
+import com.stewsters.sniper.action.ShootAction;
 import com.stewsters.sniper.action.WalkAction;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.util.math.MatUtils;
@@ -22,6 +22,13 @@ public class AiControl extends Component {
 
 
 //        pawn.
+        if (pawn.shooter && pawn.snipe != null) {
+
+            if (pawn.snipe.returnPercentage >= 1) {
+                return new ShootAction(pawn, pawn.worldMap.player);
+            }
+        }
+
         if (pawn.chaser) {
 
             //TODO: if we try to move and hit a failure, our ai loops on that failure
@@ -41,7 +48,7 @@ public class AiControl extends Component {
                     x = MatUtils.getIntInRange(-1, 1);
                     y = MatUtils.getIntInRange(-1, 1);
 
-                } else  {
+                } else {
                     x = MatUtils.limit(player.pos.current.x - pawn.pos.current.x, -1, 1);
                     y = MatUtils.limit(player.pos.current.y - pawn.pos.current.y, -1, 1);
                 }

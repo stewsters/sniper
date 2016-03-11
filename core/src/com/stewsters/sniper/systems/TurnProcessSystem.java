@@ -9,12 +9,13 @@ import com.stewsters.sniper.map.WorldMap;
 public class TurnProcessSystem {
 
     private WorldMap worldMap;
+    SnipeSystem snipeSystem;
 
     public TurnProcessSystem(WorldMap worldMap) {
         this.worldMap = worldMap;
+        snipeSystem = new SnipeSystem(worldMap);
     }
 
-    //TODO: something is jacked here, may want to replace with a priorityQueue
     public void process() {
 
         // Break early if there is no one to work on
@@ -30,6 +31,7 @@ public class TurnProcessSystem {
 //                worldMap.pawnQueue.poll();
 //            }
 
+            snipeSystem.process();
             return; // Looks like the player needs to choose what to do
         }
 

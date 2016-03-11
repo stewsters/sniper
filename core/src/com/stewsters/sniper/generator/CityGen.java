@@ -7,6 +7,7 @@ import com.stewsters.sniper.component.Health;
 import com.stewsters.sniper.component.Location;
 import com.stewsters.sniper.component.PlayerControl;
 import com.stewsters.sniper.entity.Pawn;
+import com.stewsters.sniper.extra.Snipe;
 import com.stewsters.sniper.game.TextureManager;
 import com.stewsters.sniper.game.TileType;
 import com.stewsters.sniper.map.MapChunk;
@@ -270,6 +271,7 @@ public class CityGen {
         player.health = new Health(1);
         player.appearance = new Appearance(TextureManager.player);
         player.doorOpener = true;
+        player.shooter = true;
 
         player.playerControl = new PlayerControl(player);
         Gdx.input.setInputProcessor(player.playerControl);
@@ -285,19 +287,20 @@ public class CityGen {
 
     public static WorldMap addEnemy(WorldMap worldMap, int x, int y, int z) {
 
-        Pawn player = new Pawn();
+        Pawn pawn = new Pawn();
 
-        player.pos = new Location(new Point3i(x, y, z));
-        player.health = new Health(1);
-        player.appearance = new Appearance(TextureManager.soldier);
-        player.doorOpener = true;
-        player.chaser = false;
+        pawn.pos = new Location(new Point3i(x, y, z));
+        pawn.health = new Health(1);
+        pawn.appearance = new Appearance(TextureManager.soldier);
+        pawn.doorOpener = true;
+        pawn.chaser = false;
+        pawn.shooter = true;
+        pawn.snipe = new Snipe();
+        pawn.aiControl = new AiControl(pawn);
 
-        player.aiControl = new AiControl(player);
+        pawn.gameTurn = d(99);
 
-        player.gameTurn = d(99);
-
-        worldMap.addPawn(player);
+        worldMap.addPawn(pawn);
         return worldMap;
 
     }
@@ -305,19 +308,21 @@ public class CityGen {
 
     public static WorldMap addDog(WorldMap worldMap, int x, int y, int z) {
 
-        Pawn player = new Pawn();
+        Pawn pawn = new Pawn();
 
-        player.pos = new Location(new Point3i(x, y, z));
-        player.health = new Health(1);
-        player.appearance = new Appearance(TextureManager.dog);
-        player.doorOpener = false;
-        player.chaser = true;
+        pawn.pos = new Location(new Point3i(x, y, z));
+        pawn.health = new Health(1);
+        pawn.appearance = new Appearance(TextureManager.dog);
+        pawn.doorOpener = false;
+        pawn.chaser = true;
+        pawn.shooter = false;
+        pawn.snipe = new Snipe();
 
-        player.aiControl = new AiControl(player);
+        pawn.aiControl = new AiControl(pawn);
 
-        player.gameTurn = d(99);
+        pawn.gameTurn = d(99);
 
-        worldMap.addPawn(player);
+        worldMap.addPawn(pawn);
         return worldMap;
 
     }
