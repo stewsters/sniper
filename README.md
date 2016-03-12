@@ -5,3 +5,8 @@ This is a roguelike game about maneuvering around a city and getting shots on en
 
 * Procedurally generated voxel city rendered in a Dwarf Fortress style 
 * 1hp System, where your concealment will make it take longer to locate you.
+
+
+
+### Attribution:
+I use the square.ttf font found here: http://strlen.com/square

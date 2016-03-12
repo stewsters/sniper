@@ -42,6 +42,9 @@ public class WalkAction extends Action {
         if (targetTileType == TileType.CLOSED_DOOR) {
             return new ActionResult(new OpenDoorAction(pawn, new Point3i(xPos, yPos, zPos)));
         }
+        if(targetTileType == TileType.GLASS){
+            return new ActionResult(new ShatterGlassAction(pawn, new Point3i(xPos, yPos, zPos)));
+        }
 
         // See if we can walk there.
         if (!pawn.canTraverse(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z, xPos, yPos, zPos)) {

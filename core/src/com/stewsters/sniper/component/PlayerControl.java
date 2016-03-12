@@ -42,16 +42,16 @@ public class PlayerControl implements InputProcessor {
                 pawn.setNextAction(new WalkAction(pawn, new Point2i(0, -1)));
                 break;
             case Input.Keys.NUMPAD_7:
-                pawn.setNextAction(new WalkAction(pawn,new Point2i(-1,1)));
+                pawn.setNextAction(new WalkAction(pawn, new Point2i(-1, 1)));
                 break;
             case Input.Keys.NUMPAD_9:
-                pawn.setNextAction(new WalkAction(pawn,new Point2i(1,1)));
+                pawn.setNextAction(new WalkAction(pawn, new Point2i(1, 1)));
                 break;
             case Input.Keys.NUMPAD_3:
-                pawn.setNextAction(new WalkAction(pawn,new Point2i(1,-1)));
+                pawn.setNextAction(new WalkAction(pawn, new Point2i(1, -1)));
                 break;
             case Input.Keys.NUMPAD_1:
-                pawn.setNextAction(new WalkAction(pawn,new Point2i(-1,-1)));
+                pawn.setNextAction(new WalkAction(pawn, new Point2i(-1, -1)));
                 break;
             case Input.Keys.C:
                 pawn.setNextAction(new CloseAdjacentDoors(pawn));

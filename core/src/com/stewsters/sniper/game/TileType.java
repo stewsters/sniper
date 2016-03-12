@@ -14,9 +14,11 @@ public enum TileType implements CellType {
 
     SIDEWALK_FLOOR(true, false),
 
-    ROAD_FLOOR(true,false),
-    DIRT_WALL(false,true),
-    WOOD_FLOOR(true,false),
+    ROAD_FLOOR(true, false),
+    DIRT_WALL(false, true),
+    WOOD_FLOOR(true, false),
+
+    GLASS(false,true),
 
     UP_STAIR(false, false),
     DOWN_STAIR(false, false),
@@ -46,7 +48,9 @@ public enum TileType implements CellType {
 
         ROAD_FLOOR.texture = TextureManager.atlas.findRegion("cobble");
         DIRT_WALL.texture = TextureManager.atlas.findRegion("dirt");
-        WOOD_FLOOR.texture= TextureManager.atlas.findRegion("wood");
+        WOOD_FLOOR.texture = TextureManager.atlas.findRegion("wood");
+
+        GLASS.texture = TextureManager.atlas.findRegion("glass");
 
         UP_STAIR.texture = TextureManager.atlas.findRegion("up_stair");
         DOWN_STAIR.texture = TextureManager.atlas.findRegion("down_stair");

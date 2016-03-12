@@ -4,29 +4,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.stewsters.sniper.game.TextureManager;
 import com.stewsters.sniper.generator.CityGen;
 import com.stewsters.sniper.map.WorldMap;
+import com.stewsters.sniper.systems.HudRenderSystem;
 import com.stewsters.sniper.systems.MapRenderSystem;
-import com.stewsters.sniper.systems.SnipeSystem;
 import com.stewsters.sniper.systems.TurnProcessSystem;
 
 public class GameScreen implements Screen {
 
     SpriteBatch spriteBatch;
     OrthographicCamera camera;
+    OrthographicCamera hudCamera;
     WorldMap worldMap;
 
     MapRenderSystem mapRenderSystem;
     TurnProcessSystem turnProcessSystem;
+    HudRenderSystem hudRenderSystem;
+
+    BitmapFont bitmapFont;
 
     @Override
     public void show() {
 
-        camera = new OrthographicCamera();
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+
         camera = new OrthographicCamera(w, h);
+        hudCamera = new OrthographicCamera(w, h);
+
         camera.position.set(10, 10, 0);
         camera.zoom = 0.05f;
 
@@ -39,6 +48,8 @@ public class GameScreen implements Screen {
         mapRenderSystem = new MapRenderSystem(this, spriteBatch, worldMap);
         turnProcessSystem = new TurnProcessSystem(worldMap);
 
+        bitmapFont = TextureManager.getFont();
+        hudRenderSystem = new HudRenderSystem(worldMap, hudCamera, spriteBatch, bitmapFont);
 
     }
 
@@ -47,7 +58,7 @@ public class GameScreen implements Screen {
         turnProcessSystem.process();
 
 
-        Gdx.gl.glClearColor(1f, 0.6f, 0, 1);
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.position.set(
@@ -62,12 +73,19 @@ public class GameScreen implements Screen {
 
         mapRenderSystem.processSystem();
 
+        //Hud stuff
+        spriteBatch.setProjectionMatrix(hudCamera.combined);
+        hudRenderSystem.processSystem();
+
         spriteBatch.end();
+
+
     }
 
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
+        hudCamera.setToOrtho(false, width, height);
     }
 
     @Override
@@ -89,6 +107,6 @@ public class GameScreen implements Screen {
     public void dispose() {
 //        FontFactory.dispose();
         spriteBatch.dispose();
-//        tileAtlas.dispose();
+        TextureManager.atlas.dispose();
     }
 }

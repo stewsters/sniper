@@ -3,7 +3,7 @@ package com.stewsters.sniper.generator;
 public enum BuildingTypes {
 
     BARE(false, true),
-//    ONE_HIGH(1, true),
+    //    ONE_HIGH(1, true),
     FULL_WITH_WINDOWS(true, false),
     FILL_WALLED_IN(true, false),
     OLD_CHURCH(true, true); //bell tower

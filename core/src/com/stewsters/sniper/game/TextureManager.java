@@ -2,12 +2,11 @@ package com.stewsters.sniper.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-/**
- * Created by stewsters on 3/6/16.
- */
 public class TextureManager {
 
     public static TextureAtlas atlas;
@@ -23,6 +22,16 @@ public class TextureManager {
         player = TextureManager.atlas.findRegion("player");
         soldier = TextureManager.atlas.findRegion("soldier");
         dog = TextureManager.atlas.findRegion("dog");
+    }
+
+    public static BitmapFont getFont() {
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/square.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 12;
+        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose();
+        return font12;
     }
 
 }

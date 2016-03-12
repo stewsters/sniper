@@ -19,6 +19,7 @@ public class AttackAction extends Action {
 
         if (target.health.getHP() <= 0) {
             target.worldMap.removePawn(target);
+            pawn.kills++;
         }
 
         return ActionResult.SUCCESS;

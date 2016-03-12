@@ -107,8 +107,31 @@ public class CityGen {
             solidLevel(mapChunk, foundation, groundHeight + floor, TileType.CONCRETE_FLOOR);
 
             if (MatUtils.d(5) != 1) {
-                wallWithWindows(mapChunk, foundation, groundHeight + (floor), 1, 3, TileType.CONCRETE_WALL, TileType.CONCRETE_FLOOR);
+                wallWithWindows(mapChunk, foundation, groundHeight + (floor), 1, 3, TileType.CONCRETE_WALL, TileType.GLASS);
+            }else{
+                wall(mapChunk, foundation, groundHeight + (floor), 1, TileType.CONCRETE_WALL);
             }
+
+
+            List<Rect> rooms = RectSubdivider.divide(foundation, d(4) + 2);
+            for (Rect room : rooms) {
+
+                for (int x = room.x1; x <= room.x2; x++) {
+                    for (int y = room.y1; y <= room.y2; y++) {
+
+                        if (
+                                (x == room.x1 || x == room.x2 + 1) ||
+                                        (y == room.y1 || y == room.y2 + 1) &&
+                                                mapChunk.tiles[x][y][groundHeight + floor] == TileType.CONCRETE_FLOOR
+                                )
+                            mapChunk.tiles[x][y][groundHeight + floor] = TileType.CONCRETE_WALL;
+
+                    }
+                }
+            }
+
+            // interconnect rooms
+
 
         }
 
@@ -122,7 +145,7 @@ public class CityGen {
             mapChunk.tiles[stairX][stairY + (floor % 2)][groundHeight + floor + 1] = TileType.DOWN_STAIR;
         }
 
-        int top = (totalFloors) + groundHeight;
+        int top = (totalFloors) + groundHeight - 1;
         fillColumn(mapChunk, foundation.x1, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
@@ -272,6 +295,7 @@ public class CityGen {
         player.appearance = new Appearance(TextureManager.player);
         player.doorOpener = true;
         player.shooter = true;
+        player.smasher = true;
 
         player.playerControl = new PlayerControl(player);
         Gdx.input.setInputProcessor(player.playerControl);
@@ -295,6 +319,7 @@ public class CityGen {
         pawn.doorOpener = true;
         pawn.chaser = false;
         pawn.shooter = true;
+        pawn.smasher = true;
         pawn.snipe = new Snipe();
         pawn.aiControl = new AiControl(pawn);
 

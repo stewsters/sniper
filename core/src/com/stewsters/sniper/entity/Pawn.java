@@ -22,14 +22,19 @@ public class Pawn implements Mover3d {
     public PlayerControl playerControl;
     public AiControl aiControl;
 
-    public Snipe snipe;
-
     private Action nextAction;
     public boolean doorOpener;
     public boolean chaser;
     public boolean shooter;
+    public boolean smasher = false;
 
     public long gameTurn;
+
+    public Snipe snipe;
+    public double stealth = 0;
+    public int kills = 0;
+
+
 
     public void setNextAction(Action nextAction) {
 

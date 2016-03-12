@@ -1,6 +1,5 @@
 package com.stewsters.sniper.systems;
 
-import com.badlogic.gdx.Gdx;
 import com.stewsters.sniper.action.Action;
 import com.stewsters.sniper.action.ActionResult;
 import com.stewsters.sniper.entity.Pawn;
@@ -41,7 +40,7 @@ public class TurnProcessSystem {
 
             // if it was not successful, then
             if (!result.succeeded) {
-                if(current.aiControl!=null)
+                if (current.aiControl != null)
                     break;
                 return;
             }

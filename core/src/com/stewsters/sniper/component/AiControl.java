@@ -20,11 +20,9 @@ public class AiControl extends Component {
 
     public Action act() {
 
-
-//        pawn.
         if (pawn.shooter && pawn.snipe != null) {
 
-            if (pawn.snipe.returnPercentage >= 1) {
+            if (pawn.snipe.notice >= 1 && pawn.snipe.returnPercentage >= 1) {
                 return new ShootAction(pawn, pawn.worldMap.player);
             }
         }
