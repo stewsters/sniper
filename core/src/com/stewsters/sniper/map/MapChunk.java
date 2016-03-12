@@ -3,8 +3,11 @@ package com.stewsters.sniper.map;
 import com.stewsters.sniper.entity.Item;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.game.TileType;
+import com.stewsters.util.mapgen.CellType;
+import com.stewsters.util.mapgen.threeDimension.GeneratedMap3d;
+import com.stewsters.util.pathing.threeDimention.shared.TileBasedMap3d;
 
-public class MapChunk {
+public class MapChunk implements TileBasedMap3d {
     public static final int xSize = 32;
     public static final int ySize = 32;
     public static final int zSize = 16;
@@ -31,6 +34,26 @@ public class MapChunk {
 
     public boolean isOutsideMap(int x, int y, int z) {
         return (x < 0 || x >= xSize || y < 0 || y >= ySize || z < 0 || z >= zSize);
+    }
+
+    @Override
+    public int getXSize() {
+        return xSize;
+    }
+
+    @Override
+    public int getYSize() {
+        return ySize;
+    }
+
+    @Override
+    public int getZSize() {
+        return zSize;
+    }
+
+    @Override
+    public void pathFinderVisited(int x, int y, int z) {
+
     }
 
 }

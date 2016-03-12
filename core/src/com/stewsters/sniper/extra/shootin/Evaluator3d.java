@@ -1,4 +1,4 @@
-package com.stewsters.sniper.extra;
+package com.stewsters.sniper.extra.shootin;
 
 
 public interface Evaluator3d {

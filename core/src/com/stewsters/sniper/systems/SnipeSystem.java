@@ -2,8 +2,8 @@ package com.stewsters.sniper.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.extra.Bresenham3d;
-import com.stewsters.sniper.extra.ClearShotEvaluator;
+import com.stewsters.sniper.extra.shootin.Bresenham3d;
+import com.stewsters.sniper.extra.shootin.ClearShotEvaluator;
 import com.stewsters.sniper.game.TileType;
 import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.math.Point3i;

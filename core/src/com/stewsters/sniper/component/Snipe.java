@@ -1,4 +1,4 @@
-package com.stewsters.sniper.extra;
+package com.stewsters.sniper.component;
 
 
 public class Snipe {

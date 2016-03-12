@@ -7,7 +7,7 @@ import com.stewsters.sniper.component.Appearance;
 import com.stewsters.sniper.component.Health;
 import com.stewsters.sniper.component.Location;
 import com.stewsters.sniper.component.PlayerControl;
-import com.stewsters.sniper.extra.Snipe;
+import com.stewsters.sniper.component.Snipe;
 import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
 
