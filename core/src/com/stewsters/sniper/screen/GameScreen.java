@@ -1,11 +1,12 @@
 package com.stewsters.sniper.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.stewsters.sniper.SniperGame;
 import com.stewsters.sniper.game.TextureManager;
 import com.stewsters.sniper.generator.CityGen;
 import com.stewsters.sniper.map.WorldMap;
@@ -14,6 +15,8 @@ import com.stewsters.sniper.systems.MapRenderSystem;
 import com.stewsters.sniper.systems.TurnProcessSystem;
 
 public class GameScreen implements Screen {
+
+    private final SniperGame sniperGame;
 
     SpriteBatch spriteBatch;
     OrthographicCamera camera;
@@ -24,7 +27,9 @@ public class GameScreen implements Screen {
     TurnProcessSystem turnProcessSystem;
     HudRenderSystem hudRenderSystem;
 
-    BitmapFont bitmapFont;
+    public GameScreen(SniperGame sniperGame) {
+        this.sniperGame = sniperGame;
+    }
 
     @Override
     public void show() {
@@ -48,15 +53,19 @@ public class GameScreen implements Screen {
         mapRenderSystem = new MapRenderSystem(this, spriteBatch, worldMap);
         turnProcessSystem = new TurnProcessSystem(worldMap);
 
-        bitmapFont = TextureManager.getFont();
-        hudRenderSystem = new HudRenderSystem(worldMap, hudCamera, spriteBatch, bitmapFont);
+        hudRenderSystem = new HudRenderSystem(worldMap, hudCamera, spriteBatch, TextureManager.bitmapFont);
 
     }
 
     @Override
     public void render(float delta) {
-        turnProcessSystem.process();
 
+        if (worldMap.player.health.getHP()<=0) {
+            Gdx.app.log("Game Screen", "Switch to Lose Screen");
+            sniperGame.setScreen(new LoseScreen(sniperGame));
+        }
+
+        turnProcessSystem.process();
 
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

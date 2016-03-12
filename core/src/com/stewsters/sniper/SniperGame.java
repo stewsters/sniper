@@ -15,7 +15,7 @@ public class SniperGame extends Game {
         TextureManager.init();
         TileType.setupTextures();
 
-        gameScreen = new GameScreen();
+        gameScreen = new GameScreen(this);
         setScreen(gameScreen);
     }
 
