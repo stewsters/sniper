@@ -5,6 +5,9 @@ import com.stewsters.sniper.map.MapChunk;
 import com.stewsters.util.math.geom.RectPrism;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
 
+import static com.stewsters.sniper.game.TileType.DOWN_STAIR;
+import static com.stewsters.sniper.game.TileType.UP_STAIR;
+
 public class DoorDiggerMover implements Mover3d {
 
     private MapChunk mapChunk;
@@ -17,6 +20,24 @@ public class DoorDiggerMover implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
+
+//        if (sz != tz) {
+//
+//            int zDiff =
+//
+//            if (!mapChunk.isOutsideMap(sx, sx, sx + 1)) {
+//                TileType above = mapChunk.tiles[sx][sx][sx + 1];
+//                if (above == DOWN_STAIR || above == UP_STAIR)
+//                    return false;
+//            }
+//
+//            if (!mapChunk.isOutsideMap(tx, ty, tz - 1)) {
+//                TileType below = mapChunk.tiles[tx][ty][tz - 1];
+//                if (below == DOWN_STAIR || below == UP_STAIR)
+//                    return false;
+//            }
+//
+//        }
 
         if (limit == null)
             return true;
@@ -36,12 +57,12 @@ public class DoorDiggerMover implements Mover3d {
 
     @Override
     public float getCost(int sx, int sy, int sz, int tx, int ty, int tz) {
-        TileType tileType =  mapChunk.tiles[tx][ty][tz];
-        if (sz!=tz &&tileType!=TileType.DOWN_STAIR && tileType!=TileType.UP_STAIR){
+        TileType tileType = mapChunk.tiles[tx][ty][tz];
+        if (sz != tz && tileType != TileType.DOWN_STAIR && tileType != TileType.UP_STAIR) {
             return 30f; // stairs
         }
 
-        if (mapChunk.tiles[tx][ty][tz].blocks && tileType!=TileType.CLOSED_DOOR) {
+        if (mapChunk.tiles[tx][ty][tz].blocks && tileType != TileType.CLOSED_DOOR) {
 
             return 10f;
         }

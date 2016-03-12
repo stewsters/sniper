@@ -27,6 +27,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.stewsters.sniper.game.TileType.AIR;
+import static com.stewsters.sniper.game.TileType.CLOSED_DOOR;
+import static com.stewsters.sniper.game.TileType.CONCRETE_FLOOR;
+import static com.stewsters.sniper.game.TileType.CONCRETE_WALL;
+import static com.stewsters.sniper.game.TileType.DIRT_WALL;
+import static com.stewsters.sniper.game.TileType.DOWN_STAIR;
+import static com.stewsters.sniper.game.TileType.GLASS;
+import static com.stewsters.sniper.game.TileType.GRASS;
+import static com.stewsters.sniper.game.TileType.ROAD_FLOOR;
+import static com.stewsters.sniper.game.TileType.SIDEWALK_FLOOR;
+import static com.stewsters.sniper.game.TileType.UP_STAIR;
 import static com.stewsters.util.math.MatUtils.d;
 
 public class CityGen {
@@ -37,13 +48,17 @@ public class CityGen {
 
         WorldMap worldMap = new WorldMap();
 
+        List<MapChunk> mapChunks = new ArrayList<MapChunk>();
+
         for (int x = 0; x < worldMap.getXChunkSize(); x++) {
             for (int y = 0; y < worldMap.getYChunkSize(); y++) {
-
-                MapChunk mapChunk = worldMap.getChunk(x, y);
-                buildChunk(mapChunk);
+                mapChunks.add(worldMap.getChunk(x, y));
             }
         }
+
+        mapChunks.parallelStream().forEach(chunk->
+                buildChunk(chunk)
+        );
 
 
         return worldMap;
@@ -55,17 +70,17 @@ public class CityGen {
         switch (lotType) {
 
             case PARK:
-                flattenWorld(mapChunk, TileType.DIRT_WALL, TileType.GRASS, TileType.ROAD_FLOOR, TileType.AIR);
+                flattenWorld(mapChunk, DIRT_WALL, GRASS, ROAD_FLOOR, AIR);
                 // TODO: make trees
                 break;
 
             case CITY:
-                flattenWorld(mapChunk, TileType.DIRT_WALL, TileType.SIDEWALK_FLOOR, TileType.ROAD_FLOOR, TileType.AIR);
+                flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
                 constructBuildings(mapChunk, 8);
                 break;
 
             case SKYSCRAPER:
-                flattenWorld(mapChunk, TileType.DIRT_WALL, TileType.SIDEWALK_FLOOR, TileType.ROAD_FLOOR, TileType.AIR);
+                flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
                 constructSkyscraper(mapChunk);
                 break;
 
@@ -115,12 +130,12 @@ public class CityGen {
 
             int z = groundHeight + floor;
 
-            solidLevel(mapChunk, foundation, z, TileType.CONCRETE_FLOOR);
+            solidLevel(mapChunk, foundation, z, CONCRETE_FLOOR);
 
             if (MatUtils.d(5) != 1) {
-                wallWithWindows(mapChunk, foundation, z, 1, 3, TileType.CONCRETE_WALL, TileType.GLASS);
+                wallWithWindows(mapChunk, foundation, z, 1, 3, CONCRETE_WALL, GLASS);
             } else {
-                wall(mapChunk, foundation, z, 1, TileType.CONCRETE_WALL);
+                wall(mapChunk, foundation, z, 1, CONCRETE_WALL);
             }
 
 
@@ -136,34 +151,32 @@ public class CityGen {
                         if (
                                 (x == room.x1 || x == room.x2 + 1) ||
                                         (y == room.y1 || y == room.y2 + 1) &&
-                                                mapChunk.tiles[x][y][z] == TileType.CONCRETE_FLOOR
+                                                mapChunk.tiles[x][y][z] == CONCRETE_FLOOR
                                 )
-                            mapChunk.tiles[x][y][z] = TileType.CONCRETE_WALL;
-
+                            mapChunk.tiles[x][y][z] = CONCRETE_WALL;
                     }
                 }
             }
         }
 
         // Roof
-        solidLevel(mapChunk, foundation, groundHeight + totalFloors, TileType.SIDEWALK_FLOOR);
+        solidLevel(mapChunk, foundation, groundHeight + totalFloors, SIDEWALK_FLOOR);
 
         // Corners
         int top = (totalFloors) + groundHeight - 1;
-        fillColumn(mapChunk, foundation.x1, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
-        fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, TileType.CONCRETE_WALL);
-        fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
-        fillColumn(mapChunk, foundation.x2, foundation.y2, groundHeight, top, TileType.CONCRETE_WALL);
+        fillColumn(mapChunk, foundation.x1, foundation.y1, groundHeight, top, CONCRETE_WALL);
+        fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, CONCRETE_WALL);
+        fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, CONCRETE_WALL);
+        fillColumn(mapChunk, foundation.x2, foundation.y2, groundHeight, top, CONCRETE_WALL);
 
 
         // Doors
         Point2i foundationCenter = foundation.center();
-        roomCenters.add(new Point3i(foundationCenter.x,foundationCenter.y, groundHeight+totalFloors));
+        roomCenters.add(new Point3i(foundationCenter.x, foundationCenter.y, groundHeight + totalFloors));
         Collections.shuffle(roomCenters);
 
-        DoorDiggerMover doorDiggerMover = new DoorDiggerMover(mapChunk, new RectPrism(foundation.x1, foundation.y1, groundHeight, foundation.x2, foundation.y2, groundHeight +totalFloors));
+        DoorDiggerMover doorDiggerMover = new DoorDiggerMover(mapChunk, new RectPrism(foundation.x1, foundation.y1, groundHeight, foundation.x2, foundation.y2, groundHeight + totalFloors));
         PathFinder3d p = new AStarPathFinder3d(mapChunk, 1000, false);
-
 
 
         for (Point3i room1 : roomCenters) {
@@ -175,11 +188,14 @@ public class CityGen {
 
                         if (path.getZ(i) < path.getZ(i - 1)) {
                             //put down an up stairwell
-                            mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = TileType.UP_STAIR;
-                            mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i) + 1] = TileType.DOWN_STAIR;
+
+                            if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] != DOWN_STAIR)
+                                mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = UP_STAIR;
+                            if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i) + 1] != UP_STAIR)
+                                mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i) + 1] = DOWN_STAIR;
 
                         } else if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)].blocks) {
-                            mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = TileType.CLOSED_DOOR;
+                            mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = CLOSED_DOOR;
                         }
 
                     }
