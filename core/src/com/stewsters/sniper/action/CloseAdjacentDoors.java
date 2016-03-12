@@ -18,7 +18,6 @@ public class CloseAdjacentDoors extends Action {
 
                 if (!worldMap.isOutsideMap(x, y, z)
                         && worldMap.getCellTypeAt(x, y, z) == TileType.OPEN_DOOR
-                        && !pawn.canOccupy(x, y, z)
                         && worldMap.pawnAt(x, y, z) == null) {
 
                     worldMap.setCellTypeAt(x, y, z, TileType.CLOSED_DOOR);

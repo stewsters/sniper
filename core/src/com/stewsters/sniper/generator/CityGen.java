@@ -35,6 +35,7 @@ import static com.stewsters.sniper.game.TileType.DIRT_WALL;
 import static com.stewsters.sniper.game.TileType.DOWN_STAIR;
 import static com.stewsters.sniper.game.TileType.GLASS;
 import static com.stewsters.sniper.game.TileType.GRASS;
+import static com.stewsters.sniper.game.TileType.OPEN_DOOR;
 import static com.stewsters.sniper.game.TileType.ROAD_FLOOR;
 import static com.stewsters.sniper.game.TileType.SIDEWALK_FLOOR;
 import static com.stewsters.sniper.game.TileType.UP_STAIR;
@@ -42,7 +43,7 @@ import static com.stewsters.util.math.MatUtils.d;
 
 public class CityGen {
 
-    public static final int groundHeight = 4;
+    public static final int groundHeight = 2;
 
     public static WorldMap gen() {
 
@@ -56,7 +57,7 @@ public class CityGen {
             }
         }
 
-        mapChunks.parallelStream().forEach(chunk->
+        mapChunks.parallelStream().forEach(chunk ->
                 buildChunk(chunk)
         );
 
@@ -172,7 +173,10 @@ public class CityGen {
 
         // Doors
         Point2i foundationCenter = foundation.center();
+
+        //roof
         roomCenters.add(new Point3i(foundationCenter.x, foundationCenter.y, groundHeight + totalFloors));
+
         Collections.shuffle(roomCenters);
 
         DoorDiggerMover doorDiggerMover = new DoorDiggerMover(mapChunk, new RectPrism(foundation.x1, foundation.y1, groundHeight, foundation.x2, foundation.y2, groundHeight + totalFloors));
@@ -206,8 +210,18 @@ public class CityGen {
         }
 
 
+        //Doors
+        randDoor(mapChunk, MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1), foundation.y1, groundHeight);
+        randDoor(mapChunk, MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1), foundation.y2, groundHeight);
+        randDoor(mapChunk, foundation.x1, MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 1), groundHeight);
+        randDoor(mapChunk, foundation.x2, MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 1), groundHeight);
+
+
     }
 
+    private static void randDoor(MapChunk mapChunk, int x, int y, int z) {
+        mapChunk.tiles[x][y][z] = MatUtils.getBoolean() ? CLOSED_DOOR : OPEN_DOOR;
+    }
 
     private static void flattenWorld(MapChunk mapChunk, TileType ground, TileType border, TileType road, TileType air) {
 

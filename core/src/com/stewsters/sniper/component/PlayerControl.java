@@ -8,14 +8,18 @@ import com.stewsters.sniper.action.CloseAdjacentDoors;
 import com.stewsters.sniper.action.DescendAction;
 import com.stewsters.sniper.action.PickupItemAction;
 import com.stewsters.sniper.action.RestAction;
+import com.stewsters.sniper.action.ShootAction;
 import com.stewsters.sniper.action.WalkAction;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.util.math.Point2i;
+
+import java.util.ArrayList;
 
 public class PlayerControl implements InputProcessor {
 
     private Pawn pawn;
 
+    public ArrayList<Pawn> validTargets = new ArrayList<>();
 
     public PlayerControl(Pawn pawn) {
         this.pawn = pawn;
@@ -68,6 +72,22 @@ public class PlayerControl implements InputProcessor {
                 break;
             case Input.Keys.PERIOD:
                 pawn.setNextAction(new DescendAction(pawn));
+                break;
+            case Input.Keys.NUM_1:
+            case Input.Keys.NUM_2:
+            case Input.Keys.NUM_3:
+            case Input.Keys.NUM_4:
+            case Input.Keys.NUM_5:
+            case Input.Keys.NUM_6:
+            case Input.Keys.NUM_7:
+            case Input.Keys.NUM_8:
+            case Input.Keys.NUM_9:
+                int offset = keycode - Input.Keys.NUM_1;
+
+                if (validTargets.size() > offset) {
+                    Pawn target = validTargets.get(offset);
+                    pawn.setNextAction(new ShootAction(pawn, target));
+                }
                 break;
             default:
                 Gdx.app.log(this.getClass().getName(), "Key not recognized by player");
