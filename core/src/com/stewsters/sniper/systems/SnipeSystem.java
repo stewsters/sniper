@@ -48,9 +48,13 @@ public class SnipeSystem {
                 int dy = Math.abs(p1.y - p2.y);
                 int dz = Math.abs(p1.z - p2.z);
 
+
+                //TODO: use stealth
+
                 if (Math.max(dz, Math.max(dx, dy)) <= maxRange && Bresenham3d.open(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z, clearShotEvaluator)) {
                     pawn.snipe.percentageToKill = Math.min(pawn.snipe.percentageToKill + 0.2, 1);
                     pawn.snipe.notice = Math.min(pawn.snipe.returnPercentage + 0.1, 1);
+
                     pawn.snipe.returnPercentage = Math.min(pawn.snipe.returnPercentage + 0.1, 1);
 
                     worldMap.player.playerControl.validTargets.add(pawn);

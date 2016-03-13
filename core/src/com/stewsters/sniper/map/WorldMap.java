@@ -15,8 +15,8 @@ import java.util.PriorityQueue;
 public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
 
 
-    public static final int xSize = 4;
-    public static final int ySize = 4;
+    public static final int xSize = 6;
+    public static final int ySize = 6;
     public static final int zSize = 1; // must always be one right now
 
     private MapChunk[][] chunks;
