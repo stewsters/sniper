@@ -26,8 +26,8 @@ public class DescendAction extends Action {
 
         worldMap.removePawn(pawn);
 
-        pawn.pos.current.z = pawn.pos.current.z - 1;
         pawn.pos.previous = pawn.pos.current.copy();
+        pawn.pos.current.z--;
 
         worldMap.addPawn(pawn);
 

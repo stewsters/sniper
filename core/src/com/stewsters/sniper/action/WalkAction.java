@@ -35,14 +35,15 @@ public class WalkAction extends Action {
         //See if there is an actor there
         Pawn target = worldMap.pawnAt(xPos, yPos, zPos);
         if (target != null && target != pawn) {
-            return new ActionResult(new AttackAction(pawn, target));
+            if ((pawn.aiControl != null) == (target.aiControl != null))
+                return new ActionResult(new AttackAction(pawn, target));
         }
 
         TileType targetTileType = worldMap.getCellTypeAt(xPos, yPos, zPos);
         if (targetTileType == TileType.CLOSED_DOOR) {
             return new ActionResult(new OpenDoorAction(pawn, new Point3i(xPos, yPos, zPos)));
         }
-        if(targetTileType == TileType.GLASS){
+        if (targetTileType == TileType.GLASS) {
             return new ActionResult(new ShatterGlassAction(pawn, new Point3i(xPos, yPos, zPos)));
         }
 

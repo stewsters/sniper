@@ -6,6 +6,7 @@ import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.game.TileType;
 import com.stewsters.util.mapgen.CellType;
 import com.stewsters.util.mapgen.threeDimension.GeneratedMap3d;
+import com.stewsters.util.math.Point3i;
 import com.stewsters.util.pathing.threeDimention.shared.TileBasedMap3d;
 
 import java.util.Comparator;
@@ -86,6 +87,10 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
         return chunks[chunk(x)][chunk(y)].tiles[tile(x)][tile(y)][z];
     }
 
+    public TileType getCellTypeAt(Point3i p) {
+        return getCellTypeAt(p.x, p.y, p.z);
+    }
+
     @Override
     public void setCellTypeAt(int x, int y, int z, CellType cellType) {
         chunks[chunk(x)][chunk(y)].tiles[tile(x)][tile(y)][z] = (TileType) cellType;
@@ -112,6 +117,17 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
         int z = pawn.pos.current.z;
 
         chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z] = null;
+    }
+
+    public void updatePosZ(Pawn pawn, int zMod) {
+        int x = pawn.pos.current.x;
+        int y = pawn.pos.current.y;
+        int z = pawn.pos.current.z;
+
+        chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z] = null;
+        pawn.pos.previous = pawn.pos.current.copy();
+        pawn.pos.current.z += zMod;
+        chunks[chunk(x)][chunk(y)].pawns[tile(x)][tile(y)][z + zMod] = pawn;
     }
 
     public Pawn pawnAt(int x, int y, int z) {
@@ -153,4 +169,6 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
     public boolean isOutsideMap(int x, int y, int z) {
         return (x < 0 || x >= xSize * MapChunk.xSize || y < 0 || y >= ySize * MapChunk.ySize || z < 0 || z >= zSize * MapChunk.zSize);
     }
+
+
 }

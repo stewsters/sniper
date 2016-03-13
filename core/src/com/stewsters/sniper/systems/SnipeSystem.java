@@ -22,7 +22,7 @@ public class SnipeSystem {
         this.clearShotEvaluator = new ClearShotEvaluator(worldMap);
     }
 
-    public void process() {
+    public void processSystem() {
 
         if (lastPlayerTurn == worldMap.player.gameTurn) {
             return;
@@ -33,7 +33,8 @@ public class SnipeSystem {
         int shots = 0;
         int vulnerable = 0;
 
-        worldMap.player.stealth = stealth(worldMap.player);
+        if (worldMap.player.health.getHP() > 0)
+            worldMap.player.stealth = stealth(worldMap.player);
 
         for (Pawn pawn : worldMap.pawnQueue) {
             if (pawn != worldMap.player && pawn.snipe != null) {
@@ -63,20 +64,20 @@ public class SnipeSystem {
         Gdx.app.log("targets", "targets: " + numTargets + " shots:" + shots + " returns: " + vulnerable);
     }
 
-    public double stealth(Pawn pawn){
+    public double stealth(Pawn pawn) {
 
-        double walls=0;
+        double walls = 0;
 
-        for(int xd = -1; xd<2; xd++){
-            for(int yd = -1; yd<2; yd++){
+        for (int xd = -1; xd < 2; xd++) {
+            for (int yd = -1; yd < 2; yd++) {
 //                for(int zd = -1; zd<=2; zd++){
-                    TileType tileType = pawn.worldMap.getCellTypeAt(pawn.pos.current.x +xd,pawn.pos.current.y +yd,pawn.pos.current.z);
-                    if(tileType.blocks)
-                        walls++;
+                TileType tileType = pawn.worldMap.getCellTypeAt(pawn.pos.current.x + xd, pawn.pos.current.y + yd, pawn.pos.current.z);
+                if (tileType.blocks)
+                    walls++;
 //                }
             }
         }
-        return walls/9f;
+        return walls / 9f;
 
     }
 }

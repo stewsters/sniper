@@ -18,10 +18,10 @@ public enum TileType implements CellType {
     DIRT_WALL(false, true),
     WOOD_FLOOR(true, false),
 
-    GLASS(false,true),
+    GLASS(false, true),
 
-    UP_STAIR(false, false),
-    DOWN_STAIR(false, false),
+    UP_STAIR(true, false),
+    DOWN_STAIR(true, false),
 
     OPEN_DOOR(true, false),
     CLOSED_DOOR(true, true);

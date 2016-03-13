@@ -9,10 +9,12 @@ public class TurnProcessSystem {
 
     private WorldMap worldMap;
     SnipeSystem snipeSystem;
+    GravitySystem gravitySystem;
 
     public TurnProcessSystem(WorldMap worldMap) {
         this.worldMap = worldMap;
         snipeSystem = new SnipeSystem(worldMap);
+        gravitySystem = new GravitySystem(worldMap);
     }
 
     public void process() {
@@ -30,7 +32,8 @@ public class TurnProcessSystem {
 //                worldMap.pawnQueue.poll();
 //            }
 
-            snipeSystem.process();
+            gravitySystem.processSystem();
+            snipeSystem.processSystem();
             return; // Looks like the player needs to choose what to do
         }
 

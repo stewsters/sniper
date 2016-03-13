@@ -3,6 +3,7 @@ package com.stewsters.sniper.systems;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.stewsters.sniper.generator.CityGen;
 import com.stewsters.sniper.map.WorldMap;
 
 public class HudRenderSystem {
@@ -27,6 +28,7 @@ public class HudRenderSystem {
 
         font.draw(batch, "Stealth: " + gameMap.player.stealth, 20, camera.viewportHeight - height * 2);
         font.draw(batch, "Kills: " + gameMap.player.kills, 20, camera.viewportHeight - height * 3);
+        font.draw(batch, "Floor: " + (gameMap.player.pos.current.z - CityGen.groundHeight), 20, camera.viewportHeight - height * 4);
 
 
 //        font.draw(batch, "Stealth: " + (d(10) / 10f), 20, 20);

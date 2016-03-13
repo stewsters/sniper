@@ -67,26 +67,26 @@ public class CityGen {
 
     private static void buildChunk(MapChunk mapChunk) {
 
-        LotType lotType = MatUtils.randVal(LotType.values());
-        switch (lotType) {
+        int lotChoice = d(10);
+        if (lotChoice == 1) {
+            flattenWorld(mapChunk, DIRT_WALL, GRASS, ROAD_FLOOR, AIR);
+            constructPark(mapChunk);
 
-            case PARK:
-                flattenWorld(mapChunk, DIRT_WALL, GRASS, ROAD_FLOOR, AIR);
-                // TODO: make trees
-                break;
+        } else if (lotChoice < 3) {
+            flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
+            constructSkyscraper(mapChunk);
 
-            case CITY:
-                flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
-                constructBuildings(mapChunk, 8);
-                break;
-
-            case SKYSCRAPER:
-                flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
-                constructSkyscraper(mapChunk);
-                break;
-
+        } else {
+            flattenWorld(mapChunk, DIRT_WALL, SIDEWALK_FLOOR, ROAD_FLOOR, AIR);
+            constructBuildings(mapChunk, 8);
         }
 
+    }
+
+    private static void constructPark(MapChunk mapChunk) {
+        Rect lot = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
+
+//        genBuilding(mapChunk, lot);
     }
 
 
@@ -125,9 +125,13 @@ public class CityGen {
                 lot.x2 - extendedWalk,
                 lot.y2 - extendedWalk);
 
-        List<Point3i> roomCenters = new ArrayList<Point3i>();
+
+        DoorDiggerMover doorDiggerMover = new DoorDiggerMover(mapChunk, new RectPrism(foundation.x1, foundation.y1, groundHeight, foundation.x2, foundation.y2, groundHeight + totalFloors));
+        PathFinder3d p = new AStarPathFinder3d(mapChunk, 1000, false);
 
         for (int floor = 0; floor < totalFloors; floor++) {
+
+            List<Point3i> roomCenters = new ArrayList<Point3i>();
 
             int z = groundHeight + floor;
 
@@ -158,10 +162,42 @@ public class CityGen {
                     }
                 }
             }
+            Collections.shuffle(roomCenters);
+
+
+            for (Point3i room1 : roomCenters) {
+                for (Point3i room2 : roomCenters) {
+                    FullPath3d path = p.findPath(doorDiggerMover, room1.x, room1.y, room1.z, room2.x, room2.y, room2.z);
+
+                    if (path != null) {
+                        for (int i = 1; i < path.getLength(); i++) {
+                            if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)].blocks) {
+                                mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = CLOSED_DOOR;
+                            }
+
+                        }
+                    }
+                    // if we are going up, make a stairs
+                    //otherwise make door if solid
+                }
+            }
+
+
         }
 
         // Roof
         solidLevel(mapChunk, foundation, groundHeight + totalFloors, SIDEWALK_FLOOR);
+
+        // stairs up
+        for (int floor = 0; floor < totalFloors; floor++) {
+
+            int stairsX = MatUtils.getIntInRange(foundation.x1 + 1, foundation.x2 - 1);
+            int stairsY = MatUtils.getIntInRange(foundation.y1 + 1, foundation.y2 - 1);
+            int z = groundHeight + floor;
+
+            mapChunk.tiles[stairsX][stairsY][z] = UP_STAIR;
+            mapChunk.tiles[stairsX][stairsY][z + 1] = DOWN_STAIR;
+        }
 
         // Corners
         int top = (totalFloors) + groundHeight - 1;
@@ -169,45 +205,6 @@ public class CityGen {
         fillColumn(mapChunk, foundation.x2, foundation.y1, groundHeight, top, CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x1, foundation.y2, groundHeight, top, CONCRETE_WALL);
         fillColumn(mapChunk, foundation.x2, foundation.y2, groundHeight, top, CONCRETE_WALL);
-
-
-        // Doors
-        Point2i foundationCenter = foundation.center();
-
-        //roof
-        roomCenters.add(new Point3i(foundationCenter.x, foundationCenter.y, groundHeight + totalFloors));
-
-        Collections.shuffle(roomCenters);
-
-        DoorDiggerMover doorDiggerMover = new DoorDiggerMover(mapChunk, new RectPrism(foundation.x1, foundation.y1, groundHeight, foundation.x2, foundation.y2, groundHeight + totalFloors));
-        PathFinder3d p = new AStarPathFinder3d(mapChunk, 1000, false);
-
-
-        for (Point3i room1 : roomCenters) {
-            for (Point3i room2 : roomCenters) {
-                FullPath3d path = p.findPath(doorDiggerMover, room1.x, room1.y, room1.z, room2.x, room2.y, room2.z);
-
-                if (path != null) {
-                    for (int i = 1; i < path.getLength(); i++) {
-
-                        if (path.getZ(i) < path.getZ(i - 1)) {
-                            //put down an up stairwell
-
-                            if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] != DOWN_STAIR)
-                                mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = UP_STAIR;
-                            if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i) + 1] != UP_STAIR)
-                                mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i) + 1] = DOWN_STAIR;
-
-                        } else if (mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)].blocks) {
-                            mapChunk.tiles[path.getX(i)][path.getY(i)][path.getZ(i)] = CLOSED_DOOR;
-                        }
-
-                    }
-                }
-                // if we are going up, make a stairs
-                //otherwise make door if solid
-            }
-        }
 
 
         //Doors
