@@ -84,7 +84,7 @@ public class PlayerControl implements InputProcessor {
             case Input.Keys.NUM_9:
                 int offset = keycode - Input.Keys.NUM_1;
 
-                if (validTargets.size() > offset) {
+                if (validTargets.size() > offset && validTargets.get(offset).snipe.percentageToKill >= 1) {
                     Pawn target = validTargets.get(offset);
                     pawn.setNextAction(new ShootAction(pawn, target));
                 }

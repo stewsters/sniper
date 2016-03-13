@@ -36,6 +36,8 @@ public class SnipeSystem {
         if (worldMap.player.health.getHP() > 0)
             worldMap.player.stealth = stealth(worldMap.player);
 
+        worldMap.player.playerControl.validTargets.clear();
+
         for (Pawn pawn : worldMap.pawnQueue) {
             if (pawn != worldMap.player && pawn.snipe != null) {
 
@@ -50,6 +52,8 @@ public class SnipeSystem {
                     pawn.snipe.percentageToKill = Math.min(pawn.snipe.percentageToKill + 0.2, 1);
                     pawn.snipe.notice = Math.min(pawn.snipe.returnPercentage + 0.1, 1);
                     pawn.snipe.returnPercentage = Math.min(pawn.snipe.returnPercentage + 0.1, 1);
+
+                    worldMap.player.playerControl.validTargets.add(pawn);
 //                    Gdx.app.log("shot", "player to " + (p2.x - p1.x) + " " + (p2.y - p1.y) + " " + (p2.z - p1.z));
                     numTargets++;
                 } else {
@@ -71,6 +75,9 @@ public class SnipeSystem {
         for (int xd = -1; xd < 2; xd++) {
             for (int yd = -1; yd < 2; yd++) {
 //                for(int zd = -1; zd<=2; zd++){
+                if (pawn.worldMap.isOutsideMap(pawn.pos.current.x + xd, pawn.pos.current.y + yd, pawn.pos.current.z))
+                    break;
+
                 TileType tileType = pawn.worldMap.getCellTypeAt(pawn.pos.current.x + xd, pawn.pos.current.y + yd, pawn.pos.current.z);
                 if (tileType.blocks)
                     walls++;
