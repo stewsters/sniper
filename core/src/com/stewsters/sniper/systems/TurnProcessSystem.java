@@ -19,46 +19,49 @@ public class TurnProcessSystem {
 
     public void process() {
 
-        // Break early if there is no one to work on
-        if (worldMap.pawnQueue.size() <= 0)
-            return;
 
-        Pawn current = worldMap.pawnQueue.peek();
-        Action action = current.getAction();
+        while (worldMap.player.health.hp > 0) {
+            // Break early if there is no one to work on
+            if (worldMap.pawnQueue.size() <= 0)
+                return;
 
-        if (action == null) {
+            Pawn current = worldMap.pawnQueue.peek();
+            Action action = current.getAction();
+
+            if (action == null) {
 //            if (current.aiControl == null && current.playerControl == null) {
 //                Gdx.app.log("Error", "Inactive Pawn - removed");
 //                worldMap.pawnQueue.poll();
 //            }
 
-            gravitySystem.processSystem();
-            snipeSystem.processSystem();
-            return; // Looks like the player needs to choose what to do
-        }
+                gravitySystem.processSystem();
+                snipeSystem.processSystem();
+                return; // Looks like the player needs to choose what to do
+            }
 
-        // Do action until it succeeds
-        while (true) {
-            ActionResult result = action.onPerform();
+            // Do action until it succeeds
+            while (true) {
+                ActionResult result = action.onPerform();
 
-            // if it was not successful, then
-            if (!result.succeeded) {
-                if (current.aiControl != null)
+                // if it was not successful, then
+                if (!result.succeeded) {
+                    if (current.aiControl != null)
+                        break;
+                    return;
+                }
+
+                if (result.alternative == null) {
+                    current.setNextAction(result.nextAction);
                     break;
-                return;
+                }
+
+                action = result.alternative;
             }
 
-            if (result.alternative == null) {
-                current.setNextAction(result.nextAction);
-                break;
-            }
-
-            action = result.alternative;
+            current = worldMap.pawnQueue.poll();
+            // increment time,
+            current.gameTurn += 100;
+            worldMap.pawnQueue.add(current);
         }
-
-        current = worldMap.pawnQueue.poll();
-        // increment time,
-        current.gameTurn += 100;
-        worldMap.pawnQueue.add(current);
     }
 }

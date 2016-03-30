@@ -328,7 +328,7 @@ public class CityGen {
         addPlayer(worldMap, px, py, pz);
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             int x = d(worldMap.getXSize()) - 1;
             int y = d(worldMap.getYSize()) - 1;
             int z = groundHeight;
@@ -339,7 +339,7 @@ public class CityGen {
         }
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             int x = d(worldMap.getXSize()) - 1;
             int y = d(worldMap.getYSize()) - 1;
             int z = groundHeight;
