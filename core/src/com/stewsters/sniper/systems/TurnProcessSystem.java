@@ -19,7 +19,6 @@ public class TurnProcessSystem {
 
     public void process() {
 
-
         while (worldMap.player.health.hp > 0) {
             // Break early if there is no one to work on
             if (worldMap.pawnQueue.size() <= 0)
@@ -29,11 +28,6 @@ public class TurnProcessSystem {
             Action action = current.getAction();
 
             if (action == null) {
-//            if (current.aiControl == null && current.playerControl == null) {
-//                Gdx.app.log("Error", "Inactive Pawn - removed");
-//                worldMap.pawnQueue.poll();
-//            }
-
                 gravitySystem.processSystem();
                 snipeSystem.processSystem();
                 return; // Looks like the player needs to choose what to do

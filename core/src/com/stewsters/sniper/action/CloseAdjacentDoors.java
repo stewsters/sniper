@@ -2,7 +2,7 @@ package com.stewsters.sniper.action;
 
 
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 
 public class CloseAdjacentDoors extends Action {
     public CloseAdjacentDoors(Pawn pawn) {

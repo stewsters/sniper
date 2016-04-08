@@ -1,4 +1,4 @@
-package com.stewsters.sniper.game;
+package com.stewsters.sniper.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

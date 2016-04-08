@@ -2,9 +2,6 @@ package com.stewsters.sniper.map;
 
 import com.stewsters.sniper.entity.Item;
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.game.TileType;
-import com.stewsters.util.mapgen.CellType;
-import com.stewsters.util.mapgen.threeDimension.GeneratedMap3d;
 import com.stewsters.util.pathing.threeDimention.shared.TileBasedMap3d;
 
 public class MapChunk implements TileBasedMap3d {

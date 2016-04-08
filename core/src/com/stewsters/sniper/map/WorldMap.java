@@ -3,7 +3,6 @@ package com.stewsters.sniper.map;
 
 import com.stewsters.sniper.entity.Item;
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.game.TileType;
 import com.stewsters.util.mapgen.CellType;
 import com.stewsters.util.mapgen.threeDimension.GeneratedMap3d;
 import com.stewsters.util.math.Point3i;
@@ -171,4 +170,15 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
     }
 
 
+    public Pawn pawnInSquare(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
+
+        for(int x = xMin; x < xMax;x++){
+            for(int y = yMin; y < yMax;y++){
+                for(int z = zMin; z < zMax;z++){
+                                        
+                }
+            }
+        }
+        return null;
+    }
 }

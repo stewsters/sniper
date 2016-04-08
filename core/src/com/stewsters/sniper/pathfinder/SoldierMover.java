@@ -1,5 +1,6 @@
-package com.stewsters.sniper.game;
+package com.stewsters.sniper.pathfinder;
 
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
 

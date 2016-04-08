@@ -16,24 +16,27 @@ public class Pawn implements Mover3d {
 
     public WorldMap worldMap;
     public Location pos;
+    public int xSize = 1;
+    public int ySize = 1;
+    public int zSize = 1;
+
     public Health health;
     public Appearance appearance;
+    public Snipe snipe;
 
     public PlayerControl playerControl;
     public AiControl aiControl;
 
     private Action nextAction;
-    public boolean doorOpener;
-    public boolean chaser;
-    public boolean shooter;
-    public boolean smasher = false;
-
     public long gameTurn;
 
-    public Snipe snipe;
+    public boolean doorOpener = false;
+    public boolean chaser = false;
+    public boolean shooter = false;
+    public boolean smasher = false;
+
     public double stealth = 0;
     public int kills = 0;
-
 
 
     public void setNextAction(Action nextAction) {
@@ -53,12 +56,37 @@ public class Pawn implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
-        return !worldMap.getCellTypeAt(tx, ty, tz).blocks;
+
+        return canOccupy(tx,ty,tz);
+//        for (int x = 0; x < xSize; x++) {
+//            for (int y = 0; y < ySize; y++) {
+//                for (int z = 0; z < zSize; z++) {
+//
+//                    if (worldMap.getCellTypeAt(tx + x, ty + y, tz + z).blocks) {
+//                        return false;
+//                    }
+//
+//                }
+//            }
+//        }
+//        return true;
     }
 
     @Override
     public boolean canOccupy(int tx, int ty, int tz) {
-        return !worldMap.getCellTypeAt(tx, ty, tz).blocks;
+
+        for (int x = 0; x < xSize; x++) {
+            for (int y = 0; y < ySize; y++) {
+                for (int z = 0; z < zSize; z++) {
+
+                    if (worldMap.getCellTypeAt(tx + x, ty + y, tz + z).blocks) {
+                        return false;
+                    }
+
+                }
+            }
+        }
+        return true;
     }
 
     @Override

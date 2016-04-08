@@ -1,8 +1,8 @@
 package com.stewsters.sniper;
 
 import com.badlogic.gdx.Game;
-import com.stewsters.sniper.game.TextureManager;
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.assets.TextureManager;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.screen.GameScreen;
 
 public class SniperGame extends Game {

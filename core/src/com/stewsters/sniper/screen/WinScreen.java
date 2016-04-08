@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.stewsters.sniper.SniperGame;
-import com.stewsters.sniper.game.TextureManager;
+import com.stewsters.sniper.assets.TextureManager;
 
 public class WinScreen implements Screen {
 

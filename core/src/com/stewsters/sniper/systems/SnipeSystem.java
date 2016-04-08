@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.stewsters.sniper.entity.Pawn;
 import com.stewsters.sniper.extra.shootin.Bresenham3d;
 import com.stewsters.sniper.extra.shootin.ClearShotEvaluator;
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.util.math.Point3i;
 
@@ -58,7 +58,7 @@ public class SnipeSystem {
                     pawn.snipe.returnPercentage = Math.min(pawn.snipe.returnPercentage + 0.1, 1);
 
                     worldMap.player.playerControl.validTargets.add(pawn);
-//                    Gdx.app.log("shot", "player to " + (p2.x - p1.x) + " " + (p2.y - p1.y) + " " + (p2.z - p1.z));
+
                     numTargets++;
                 } else {
                     pawn.snipe.percentageToKill = Math.max(pawn.snipe.percentageToKill - 0.4, 0);

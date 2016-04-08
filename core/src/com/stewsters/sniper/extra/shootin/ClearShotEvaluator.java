@@ -1,7 +1,7 @@
 package com.stewsters.sniper.extra.shootin;
 
 
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.map.WorldMap;
 
 public class ClearShotEvaluator implements Evaluator3d {

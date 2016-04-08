@@ -2,7 +2,7 @@ package com.stewsters.sniper.action;
 
 
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.util.math.Point2i;
 import com.stewsters.util.math.Point3i;
 
@@ -24,16 +24,25 @@ public class WalkAction extends Action {
             return new ActionResult(new RestAction(pawn));
         }
 
-        int xPos = pawn.pos.current.x + offset.x;
-        int yPos = pawn.pos.current.y + offset.y;
-        int zPos = pawn.pos.current.z;
+        int xCur = pawn.pos.current.x;
+        int yCur = pawn.pos.current.y;
+        int zCur = pawn.pos.current.z;
+
+
+        int xPos = xCur + offset.x;
+        int yPos = yCur + offset.y;
+        int zPos = zCur;
+
 
         if (worldMap.isOutsideMap(xPos, yPos, zPos)) {
             return ActionResult.FAILURE;
         }
 
         //See if there is an actor there
-        Pawn target = worldMap.pawnAt(xPos, yPos, zPos);
+        pawn.canTraverse(xCur, yCur, zCur, xPos, yPos, zPos);
+
+        Pawn target = worldMap.pawnInSquare(xPos, yPos, zPos, xPos + pawn.xSize - 1, yPos + pawn.ySize - 1, zPos + pawn.zSize - 1);
+
         if (target != null && target != pawn) {
             if ((pawn.aiControl != null) != (target.aiControl != null))
                 return new ActionResult(new AttackAction(pawn, target));

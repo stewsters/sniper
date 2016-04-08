@@ -1,6 +1,7 @@
-package com.stewsters.sniper.game;
+package com.stewsters.sniper.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.stewsters.sniper.assets.TextureManager;
 import com.stewsters.util.mapgen.CellType;
 
 public enum TileType implements CellType {

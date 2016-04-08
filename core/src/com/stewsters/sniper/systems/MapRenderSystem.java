@@ -3,7 +3,7 @@ package com.stewsters.sniper.systems;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.stewsters.sniper.entity.Pawn;
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.map.WorldMap;
 import com.stewsters.sniper.screen.GameScreen;
 import com.stewsters.util.math.Point3i;

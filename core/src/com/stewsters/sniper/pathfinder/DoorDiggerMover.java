@@ -1,12 +1,9 @@
-package com.stewsters.sniper.extra.doorgen;
+package com.stewsters.sniper.pathfinder;
 
-import com.stewsters.sniper.game.TileType;
+import com.stewsters.sniper.map.TileType;
 import com.stewsters.sniper.map.MapChunk;
 import com.stewsters.util.math.geom.RectPrism;
 import com.stewsters.util.pathing.threeDimention.shared.Mover3d;
-
-import static com.stewsters.sniper.game.TileType.DOWN_STAIR;
-import static com.stewsters.sniper.game.TileType.UP_STAIR;
 
 public class DoorDiggerMover implements Mover3d {
 
