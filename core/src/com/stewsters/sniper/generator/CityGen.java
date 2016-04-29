@@ -84,7 +84,7 @@ public class CityGen {
     }
 
     private static void constructPark(MapChunk mapChunk) {
-        Rect lot = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
+        Rect lot = new Rect(2, 2, MapChunk.xSize - 3, MapChunk.ySize - 3);
 
 //        genBuilding(mapChunk, lot);
     }
@@ -92,7 +92,7 @@ public class CityGen {
 
     private static void constructSkyscraper(MapChunk mapChunk) {
 
-        Rect lot = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
+        Rect lot = new Rect(2, 2, MapChunk.xSize - 3, MapChunk.ySize - 3);
 
         genBuilding(mapChunk, lot);
     }
@@ -100,7 +100,7 @@ public class CityGen {
     private static void constructBuildings(MapChunk mapChunk, int minSize) {
 
         // make a lot representing the whole, except for the street
-        Rect whole = new Rect(2, 2, mapChunk.xSize - 3, mapChunk.ySize - 3);
+        Rect whole = new Rect(2, 2, MapChunk.xSize - 3, MapChunk.ySize - 3);
 
         List<Rect> lots = RectSubdivider.divide(whole, minSize);
 
@@ -113,7 +113,7 @@ public class CityGen {
     private static void genBuilding(MapChunk mapChunk, Rect lot) {
 
         // ySize in floors
-        int totalFloors = MatUtils.getIntInRange(2, (mapChunk.zSize - groundHeight - 2));
+        int totalFloors = MatUtils.getIntInRange(2, (MapChunk.zSize - groundHeight - 2));
 
         // This gives you the separation level around the base
         int extendedWalk = MatUtils.getIntInRange(1, 2);
@@ -222,15 +222,15 @@ public class CityGen {
 
     private static void flattenWorld(MapChunk mapChunk, TileType ground, TileType border, TileType road, TileType air) {
 
-        for (int x = 0; x < mapChunk.xSize; x++) {
-            for (int y = 0; y < mapChunk.ySize; y++) {
-                for (int z = 0; z < mapChunk.zSize; z++) {
+        for (int x = 0; x < MapChunk.xSize; x++) {
+            for (int y = 0; y < MapChunk.ySize; y++) {
+                for (int z = 0; z < MapChunk.zSize; z++) {
                     TileType t;
 
                     if (z < groundHeight) {
                         t = ground;
                     } else if (z == groundHeight) {
-                        if (x <= 1 || x >= mapChunk.xSize - 2 || y <= 1 || y >= mapChunk.ySize - 2)
+                        if (x <= 1 || x >= MapChunk.xSize - 2 || y <= 1 || y >= MapChunk.ySize - 2)
                             t = road;
                         else
                             t = border;

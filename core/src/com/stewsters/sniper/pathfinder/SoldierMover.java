@@ -27,10 +27,8 @@ public class SoldierMover implements Mover3d {
         if (targetTileType == TileType.DOWN_STAIR && startTileType == TileType.UP_STAIR)
             return true; // Can go up stairs
 
-        if (targetTileType == TileType.UP_STAIR && startTileType == TileType.DOWN_STAIR)
-            return true; // Can go down stairs
+        return targetTileType == TileType.UP_STAIR && startTileType == TileType.DOWN_STAIR;
 
-        return false;
     }
 
     @Override

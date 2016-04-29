@@ -99,11 +99,7 @@ public class Bresenham3d {
                 point[2] += z_inc;
             }
         }
-        if (!evaluator3d.isGood(last_point[0], last_point[1], last_point[2], point[0], point[1], point[2]))
-            return false;
-
-
-        return true;
+        return evaluator3d.isGood(last_point[0], last_point[1], last_point[2], point[0], point[1], point[2]);
     }
 
     public static ArrayList<Point3i> getArray(int x1, int y1, int z1, int x2, int y2, int z2) {
