@@ -39,25 +39,11 @@ public enum TileType implements CellType {
 
     public static void setupTextures() {
 
-        WATER.texture = TextureManager.atlas.findRegion("water");
+        for (TileType tileType : TileType.values()) {
 
-        GRASS.texture = TextureManager.atlas.findRegion("grass");
-        CONCRETE_FLOOR.texture = TextureManager.atlas.findRegion("concrete_floor");
-        CONCRETE_WALL.texture = TextureManager.atlas.findRegion("concrete_wall");
+            tileType.texture = TextureManager.atlas.findRegion(tileType.name().toLowerCase());
+            assert tileType.texture != null;
 
-        SIDEWALK_FLOOR.texture = TextureManager.atlas.findRegion("sidewalk");
-
-        ROAD_FLOOR.texture = TextureManager.atlas.findRegion("cobble");
-        DIRT_WALL.texture = TextureManager.atlas.findRegion("dirt");
-        WOOD_FLOOR.texture = TextureManager.atlas.findRegion("wood");
-
-        GLASS.texture = TextureManager.atlas.findRegion("glass");
-
-        UP_STAIR.texture = TextureManager.atlas.findRegion("up_stair");
-        DOWN_STAIR.texture = TextureManager.atlas.findRegion("down_stair");
-
-        OPEN_DOOR.texture = TextureManager.atlas.findRegion("open_door");
-        CLOSED_DOOR.texture = TextureManager.atlas.findRegion("closed_door");
-
+        }
     }
 }
