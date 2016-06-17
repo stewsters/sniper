@@ -56,20 +56,7 @@ public class Pawn implements Mover3d {
 
     @Override
     public boolean canTraverse(int sx, int sy, int sz, int tx, int ty, int tz) {
-
-        return canOccupy(tx,ty,tz);
-//        for (int x = 0; x < xSize; x++) {
-//            for (int y = 0; y < ySize; y++) {
-//                for (int z = 0; z < zSize; z++) {
-//
-//                    if (worldMap.getCellTypeAt(tx + x, ty + y, tz + z).blocks) {
-//                        return false;
-//                    }
-//
-//                }
-//            }
-//        }
-//        return true;
+        return canOccupy(tx, ty, tz);
     }
 
     @Override

@@ -172,10 +172,13 @@ public class WorldMap implements GeneratedMap3d, TileBasedMap3d {
 
     public Pawn pawnInSquare(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
 
-        for(int x = xMin; x < xMax;x++){
-            for(int y = yMin; y < yMax;y++){
-                for(int z = zMin; z < zMax;z++){
-                                        
+        for (int x = xMin; x < xMax; x++) {
+            for (int y = yMin; y < yMax; y++) {
+                for (int z = zMin; z < zMax; z++) {
+                    Pawn p = pawnAt(x, y, z);
+
+                    if (p != null)
+                        return p;
                 }
             }
         }

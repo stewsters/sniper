@@ -18,12 +18,11 @@ public class ShootAction extends Action {
         target.health.damage(1);
 
         if (target.health.getHP() <= 0) {
-            pawn.worldMap.removePawn(target);
+            target.worldMap.removePawn(target);
             pawn.kills++;
         }
 
         return ActionResult.SUCCESS;
     }
-
 
 }

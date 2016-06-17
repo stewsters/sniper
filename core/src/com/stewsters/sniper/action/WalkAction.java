@@ -39,13 +39,15 @@ public class WalkAction extends Action {
         }
 
         //See if there is an actor there
-        pawn.canTraverse(xCur, yCur, zCur, xPos, yPos, zPos);
+        boolean canTraverse = pawn.canTraverse(xCur, yCur, zCur, xPos, yPos, zPos);
 
         Pawn target = worldMap.pawnInSquare(xPos, yPos, zPos, xPos + pawn.xSize - 1, yPos + pawn.ySize - 1, zPos + pawn.zSize - 1);
 
         if (target != null && target != pawn) {
             if ((pawn.aiControl != null) != (target.aiControl != null))
                 return new ActionResult(new AttackAction(pawn, target));
+            else
+                return ActionResult.FAILURE;
         }
 
         TileType targetTileType = worldMap.getCellTypeAt(xPos, yPos, zPos);
@@ -58,17 +60,15 @@ public class WalkAction extends Action {
         }
 
         // See if we can walk there.
-        if (!pawn.canTraverse(pawn.pos.current.x, pawn.pos.current.y, pawn.pos.current.z, xPos, yPos, zPos)) {
+        if (!canTraverse) {
             return ActionResult.FAILURE;
         }
 
-
-        //TODO: fix this
+        // At this point we know that we can walk, lets do it
         pawn.worldMap.updatePawnPos(pawn, xPos, yPos, zPos);
 
 
         // See if the hero stepped on anything interesting that would cause them to react.
-
         if (targetTileType == TileType.UP_STAIR) {
             return new ActionResult(true, new AscendAction(pawn));
         }
