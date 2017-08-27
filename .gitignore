@@ -59,6 +59,9 @@ nb-configuration.xml
 .gradle
 gradle-app.setting
 build/
+final/
+final.zip
+core/assets/textureAtlas
 
 ## OS Specific
 .DS_Store

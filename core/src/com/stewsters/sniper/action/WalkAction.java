@@ -10,14 +10,12 @@ public class WalkAction extends Action {
 
     private final Point2i offset;
 
-
     public WalkAction(Pawn pawn, Point2i offset) {
         super(pawn);
         this.offset = offset;
     }
 
     @Override
-
     public ActionResult onPerform() {
 
         if (offset.x == 0 && offset.y == 0) {
